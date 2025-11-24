@@ -1,0 +1,302 @@
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.wishlist-out-of-stock {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.wishlist-in-stock {
+    color: #2ecc71;
+    font-weight: bold;
+}
+
+
+/* Wishlist heart styling */
+.btn-wishlist.active,
+.btn-product-icon.btn-wishlist.active,
+.product-wishlist.active {
+    color: #e74c3c !important;
+    fill: #e74c3c !important;
+}
+
+.btn-wishlist:not(.active),
+.btn-product-icon.btn-wishlist:not(.active),
+.product-wishlist:not(.active) {
+    color: #999 !important;
+    fill: #999 !important;
+}
+
+/* Prevent duplicate notifications */
+.wishlist-notification {
+    z-index: 10000;
+}
+
+
+.btn-quickview {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    color: #495057;
+}
+
+.btn-quickview:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+    color: #495057;
+}
+
+/* Quickview Modal Image Navigation Styles */
+.mfp-content .product-thumb {
+    cursor: pointer !important;
+    border: 3px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    opacity: 0.7;
+}
+
+.mfp-content .product-thumb:hover {
+    border-color: #007bff !important;
+    transform: scale(1.05);
+    box-shadow: 0 2px 10px rgba(0, 123, 255, 0.3);
+    opacity: 1 !important;
+}
+
+.mfp-content .product-thumb.active {
+    border-color: #007bff !important;
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.6);
+    transform: scale(1.02);
+    opacity: 1 !important;
+}
+
+.mfp-content .product-thumb img {
+    cursor: pointer !important;
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: opacity 0.2s ease;
+}
+
+.mfp-content .product-thumb:hover img {
+    opacity: 0.9;
+}
+
+.mfp-content .product-thumb.active img {
+    opacity: 1;
+}
+
+/* Ensure thumbnails are clickable */
+.mfp-content .product-thumbs-wrap {
+    pointer-events: auto;
+}
+
+.mfp-content .product-thumbs {
+    pointer-events: auto;
+}
+
+/* Fix main image slider - show only one image at a time */
+.mfp-content .swiper-container.product-single-swiper {
+    overflow: hidden;
+    position: relative;
+}
+
+.mfp-content .swiper-wrapper-quickview {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    transition: transform 0.3s ease;
+    width: 100%;
+}
+
+.mfp-content .swiper-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    display: block;
+}
+
+.mfp-content .swiper-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Wishlist Heart States - Match shop.php exactly */
+.btn-wishlist,
+.btn-product-icon.btn-wishlist {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Unfilled heart (not in wishlist) */
+.btn-wishlist.w-icon-heart,
+.btn-product-icon.btn-wishlist.w-icon-heart {
+    color: #999 !important;
+    fill: #999 !important;
+}
+
+.btn-wishlist.w-icon-heart:hover,
+.btn-product-icon.btn-wishlist.w-icon-heart:hover {
+    color: #ff4757 !important;
+    fill: #ff4757 !important;
+    transform: scale(1.1);
+}
+
+/* Filled heart (in wishlist) */
+.btn-wishlist.in-wishlist,
+.btn-wishlist.w-icon-heart-full,
+.btn-product-icon.btn-wishlist.in-wishlist,
+.btn-product-icon.btn-wishlist.w-icon-heart-full {
+    color: #ff4757 !important;
+    fill: #ff4757 !important;
+}
+
+.btn-wishlist.in-wishlist:hover,
+.btn-wishlist.w-icon-heart-full:hover,
+.btn-product-icon.btn-wishlist.in-wishlist:hover,
+.btn-product-icon.btn-wishlist.w-icon-heart-full:hover {
+    color: #ff3742 !important;
+    fill: #ff3742 !important;
+    transform: scale(1.1);
+}
+
+/* Active state */
+.btn-wishlist.active,
+.btn-product-icon.btn-wishlist.active {
+    color: #ff4757 !important;
+    fill: #ff4757 !important;
+}
+
+/* Heart icon specific styles - Increased size for better visibility */
+.btn-wishlist,
+.btn-product-icon.btn-wishlist {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    background: #fff;
+    transition: all 0.3s ease;
+    text-align: center;
+    line-height: 50px;
+    font-size: 24px;
+    color: #999;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Unfilled heart icon - using w-icon-heart class */
+.btn-wishlist.w-icon-heart,
+.btn-product-icon.btn-wishlist.w-icon-heart {
+    color: #999 !important;
+}
+
+.btn-wishlist.w-icon-heart:before,
+.btn-product-icon.btn-wishlist.w-icon-heart:before {
+    content: "♡";
+    font-size: 24px;
+    line-height: 50px;
+    text-align: center;
+    display: block;
+    color: #999;
+    transition: all 0.3s ease;
+}
+
+/* Filled heart icon - using w-icon-heart-full class - Enhanced for better visibility */
+.btn-wishlist.w-icon-heart-full,
+.btn-wishlist.in-wishlist,
+.btn-wishlist.active,
+.btn-product-icon.btn-wishlist.w-icon-heart-full,
+.btn-product-icon.btn-wishlist.in-wishlist,
+.btn-product-icon.btn-wishlist.active {
+    color: #ff4757 !important;
+    background-color: #fff !important;
+    border-color: #ff4757 !important;
+}
+
+.btn-wishlist.w-icon-heart-full:before,
+.btn-wishlist.in-wishlist:before,
+.btn-wishlist.active:before,
+.btn-product-icon.btn-wishlist.w-icon-heart-full:before,
+.btn-product-icon.btn-wishlist.in-wishlist:before,
+.btn-product-icon.btn-wishlist.active:before {
+    content: "♥" !important;
+    font-size: 24px !important;
+    line-height: 50px !important;
+    text-align: center !important;
+    display: block !important;
+    color: #ff4757 !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Hover effects */
+.btn-wishlist:hover,
+.btn-product-icon.btn-wishlist:hover {
+    transform: scale(1.1);
+}
+
+.btn-wishlist.w-icon-heart:hover,
+.btn-product-icon.btn-wishlist.w-icon-heart:hover {
+    color: #ff4757 !important;
+}
+
+.btn-wishlist.w-icon-heart:hover:before,
+.btn-product-icon.btn-wishlist.w-icon-heart:hover:before {
+    color: #ff4757;
+}
+
+/* Font Awesome fallback */
+.btn-wishlist .fa-heart,
+.btn-product-icon.btn-wishlist .fa-heart {
+    font-size: 20px;
+    line-height: 50px;
+    text-align: center;
+    display: block;
+    color: #999;
+    transition: all 0.3s ease;
+}
+
+.btn-wishlist.in-wishlist .fa-heart,
+.btn-wishlist.w-icon-heart-full .fa-heart,
+.btn-product-icon.btn-wishlist.in-wishlist .fa-heart,
+.btn-product-icon.btn-wishlist.w-icon-heart-full .fa-heart {
+    color: #ff4757;
+}
+
+/* Ensure proper heart display */
+.btn-wishlist i,
+.btn-product-icon.btn-wishlist i {
+    font-style: normal;
+    font-weight: normal;
+    display: block;
+    text-align: center;
+    line-height: 50px;
+}
+
+/* Override any conflicting styles */
+.btn-wishlist span,
+.btn-product-icon.btn-wishlist span {
+    display: none !important;
+}

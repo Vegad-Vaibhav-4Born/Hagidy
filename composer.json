@@ -1,0 +1,8 @@
+{
+    "name": "user/hagidy",
+    "description": "sanjay/hagidy",
+    "type": "composer-plugin",
+    "require": {
+        "razorpay/razorpay": "^2.9"
+    }
+}

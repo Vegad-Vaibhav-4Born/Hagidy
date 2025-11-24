@@ -1,0 +1,332 @@
+
+.product-popup .product-thumb {
+    cursor: pointer !important;
+    border: 3px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    opacity: 0.7;
+}
+.product-popup .product-thumb:hover {
+    border-color: #007bff !important;
+    transform: scale(1.05);
+    box-shadow: 0 2px 10px rgba(0,123,255,0.3);
+    opacity: 1 !important;
+}
+.product-popup .product-thumb.active {
+    border-color: #007bff !important;
+    box-shadow: 0 0 15px rgba(0,123,255,0.6);
+    transform: scale(1.02);
+    opacity: 1 !important;
+}
+.product-popup .product-thumb img {
+    cursor: pointer !important;
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: opacity 0.2s ease;
+}
+.product-popup .product-thumb:hover img {
+    opacity: 0.9;
+}
+.product-popup .product-thumb.active img {
+    opacity: 1;
+}
+/* Ensure thumbnails are clickable */
+.product-popup .product-thumbs-wrap {
+    pointer-events: auto;
+}
+.product-popup .product-thumbs {
+    pointer-events: auto;
+}
+
+/* Fix main image slider - show only one image at a time */
+.product-popup .swiper-container.product-single-swiper {
+    overflow: hidden;
+    position: relative;
+}
+
+.product-popup .swiper-wrapper-quickview {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    transition: transform 0.3s ease;
+    width: 100%;
+}
+
+.product-popup .swiper-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    display: block;
+}
+
+.product-popup .swiper-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Fix thumbnail slider - remove horizontal scroll */
+.product-popup .product-thumbs-wrap {
+    overflow: hidden;
+    position: relative;
+}
+
+.product-popup .product-thumbs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    transition: transform 0.3s ease;
+    width: max-content;
+}
+
+.product-popup .product-thumbs .swiper-slide {
+    flex: 0 0 auto;
+    width: 80px;
+    margin-right: 10px;
+}
+
+/* Navigation buttons */
+.product-popup .swiper-button-next,
+.product-popup .swiper-button-prev {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.product-popup .swiper-button-next:hover,
+.product-popup .swiper-button-prev:hover {
+    background: rgba(0,0,0,0.8);
+}
+
+.product-popup .swiper-button-next {
+    right: 10px;
+}
+
+.product-popup .swiper-button-prev {
+    left: 10px;
+}
+
+.product-popup .swiper-button-next:after,
+.product-popup .swiper-button-prev:after {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 16px;
+}
+
+.product-popup .swiper-button-next:after {
+    content: '\f054';
+}
+
+.product-popup .swiper-button-prev:after {
+    content: '\f053';
+}
+
+/* Hide navigation buttons if only one image */
+.product-popup .swiper-container.single-image .swiper-button-next,
+.product-popup .swiper-container.single-image .swiper-button-prev {
+    display: none;
+}
+
+
+/* Enhanced Variant Display Styling for Quick View - Seamless List */
+.product-variation-form {
+    margin-bottom: 0;
+    padding: 10px 0;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.product-variation-form:last-child {
+    border-bottom: none;
+}
+
+.product-variation-form label {
+    font-weight: 600;
+    font-size: 13px;
+    color: #333;
+    margin-bottom: 0;
+    display: inline-block;
+    text-transform: capitalize;
+    min-width: 70px;
+    flex-shrink: 0;
+}
+
+.product-variations {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+    flex: 1;
+}
+
+/* Color Swatch Styling */
+.product-color-swatch .color {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 3px solid #e0e0e0;
+    margin: 3px;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: inline-block;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+}
+
+.product-color-swatch .color:hover {
+    border-color: #007bff;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+}
+
+.product-color-swatch .color.selected {
+    border-color: #007bff;
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0,123,255,0.4);
+}
+
+.product-color-swatch .color::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    color: #666;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: rgba(255,255,255,0.9);
+    padding: 2px 4px;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.product-color-swatch .color:hover::after {
+    opacity: 1;
+}
+
+/* Size Button Styling */
+.product-size-swatch .size {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 35px;
+    padding: 6px 10px;
+    margin: 3px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    background: #fff;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.product-size-swatch .size:hover {
+    border-color: #007bff;
+    background: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,123,255,0.2);
+}
+
+.product-size-swatch .size.selected {
+    border-color: #007bff;
+    background: #007bff;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0,123,255,0.3);
+}
+
+/* Other Variant Options Styling */
+.product-variant-swatch .variant-option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    height: 35px;
+    padding: 6px 12px;
+    margin: 3px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    background: #fff;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.product-variant-swatch .variant-option:hover {
+    border-color: #007bff;
+    background: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,123,255,0.2);
+}
+
+.product-variant-swatch .variant-option.selected {
+    border-color: #007bff;
+    background: #007bff;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0,123,255,0.3);
+}
+
+/* Removed color name display - colors show in circles only */
+
+/* Clean All Button */
+.product-variation-clean {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 4px 8px;
+    background: #f8f9fa;
+    color: #666;
+    text-decoration: none;
+    font-size: 11px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.product-variation-clean:hover {
+    background: #e9ecef;
+    color: #333;
+}
+
+/* Animation for selection */
+@keyframes selectPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.product-color-swatch .color.selected,
+.product-size-swatch .size.selected,
+.product-variant-swatch .variant-option.selected {
+    animation: selectPulse 0.3s ease;
+}
+

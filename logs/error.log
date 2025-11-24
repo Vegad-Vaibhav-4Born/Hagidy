@@ -1,0 +1,112 @@
+2025-10-14 09:43:02 - Unclosed '{' on line 109 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3668
+2025-10-14 09:43:06 - Unclosed '{' on line 109 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3668
+2025-10-14 09:43:07 - Unclosed '{' on line 109 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3668
+2025-10-14 09:43:42 - Unclosed '{' on line 122 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3686
+2025-10-14 09:43:45 - Unclosed '{' on line 177 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3691
+2025-10-14 09:43:49 - Unclosed '{' on line 177 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3691
+2025-10-14 09:44:21 - Unclosed '{' on line 324 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3703
+2025-10-14 09:44:23 - Unclosed '{' on line 324 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3703
+2025-10-14 09:44:26 - Unclosed '{' on line 324 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3703
+2025-10-14 09:44:59 - Unclosed '{' on line 177 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3711
+2025-10-14 09:45:02 - Unclosed '{' on line 177 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3711
+2025-10-14 09:45:39 - Unclosed '{' on line 177 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3738
+2025-10-14 09:45:40 - Unclosed '{' on line 177 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3738
+2025-10-14 09:46:09 - Unclosed '{' on line 370 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3748
+2025-10-14 09:46:11 - Unclosed '{' on line 370 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3748
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 986
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 987
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1101
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1166
+2025-10-14 09:46:58 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 336
+2025-10-14 09:46:58 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 336
+2025-10-14 09:46:58 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 378
+2025-10-14 09:46:58 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 378
+2025-10-14 09:46:58 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 463
+2025-10-14 09:46:58 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 463
+2025-10-14 09:46:58 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 463
+2025-10-14 09:46:58 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 463
+2025-10-14 09:46:58 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 463
+2025-10-14 09:46:58 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 493
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 546
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 547
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 546
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 547
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 546
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 547
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 546
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 547
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 624
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 625
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 624
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 625
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 624
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 625
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 624
+2025-10-14 09:46:58 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 625
+2025-10-14 09:47:04 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 986
+2025-10-14 09:47:04 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 987
+2025-10-14 09:47:04 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1101
+2025-10-14 09:47:04 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1166
+2025-10-14 09:47:05 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 986
+2025-10-14 09:47:05 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 987
+2025-10-14 09:47:05 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1101
+2025-10-14 09:47:05 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1166
+2025-10-14 09:47:06 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 986
+2025-10-14 09:47:06 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 987
+2025-10-14 09:47:06 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1101
+2025-10-14 09:47:06 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1166
+2025-10-14 09:47:07 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\cart.php on line 8
+2025-10-14 09:47:07 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\cart.php on line 9
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 986
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 987
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1101
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1166
+2025-10-14 09:47:08 - session_start(): Ignoring session_start() because a session is already active in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\login.php on line 2
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 986
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 987
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1101
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1166
+2025-10-14 09:47:08 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 336
+2025-10-14 09:47:08 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 336
+2025-10-14 09:47:08 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 378
+2025-10-14 09:47:08 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 378
+2025-10-14 09:47:08 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 463
+2025-10-14 09:47:08 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 463
+2025-10-14 09:47:08 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 463
+2025-10-14 09:47:08 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 463
+2025-10-14 09:47:08 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 463
+2025-10-14 09:47:08 - Undefined variable $superadmin_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 493
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 546
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 547
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 546
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 547
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 546
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 547
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 546
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 547
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 624
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 625
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 624
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 625
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 624
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 625
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 624
+2025-10-14 09:47:08 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\index.php on line 625
+2025-10-14 09:47:09 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\wishlist.php on line 8
+2025-10-14 09:47:09 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\wishlist.php on line 9
+2025-10-14 09:47:09 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 986
+2025-10-14 09:47:09 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 987
+2025-10-14 09:47:09 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1101
+2025-10-14 09:47:09 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1166
+2025-10-14 09:47:09 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 986
+2025-10-14 09:47:09 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 987
+2025-10-14 09:47:09 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1101
+2025-10-14 09:47:09 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1166
+2025-10-14 09:47:10 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 986
+2025-10-14 09:47:10 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 987
+2025-10-14 09:47:10 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1101
+2025-10-14 09:47:10 - Undefined variable $vendor_baseurl in D:\xampp\htdocs\Hagidy-Website\New Code\app\includes\header.php on line 1166
+2025-10-14 09:47:26 - Unclosed '{' on line 370 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3789
+2025-10-14 09:47:28 - Unclosed '{' on line 370 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3789
+2025-10-14 09:47:28 - Unclosed '{' on line 370 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3789
+2025-10-14 09:47:31 - Unclosed '{' on line 370 in D:\xampp\htdocs\Hagidy-Website\New Code\app\pages\product-detail.php on line 3789

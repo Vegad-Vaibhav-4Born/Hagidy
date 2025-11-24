@@ -1,0 +1,37 @@
+<?php
+header('Content-Type: application/json');
+require_once __DIR__ . '/../pages/includes/init.php';
+
+
+$subcategoryId = isset($_GET['sub_category_id']) ? trim($_GET['sub_category_id']) : '';
+$categoryId = isset($_GET['category_id']) ? trim($_GET['category_id']) : '';
+$result = ['success'=>true,'mandatory'=>[]];
+
+// Prefer subcategory-based mandatory attributes if provided
+if ($subcategoryId !== '') {
+    $scid = mysqli_real_escape_string($con, $subcategoryId);
+    $rs = mysqli_query($con, "SELECT mandatory_attributes FROM sub_category WHERE id='$scid' LIMIT 1");
+    if ($rs && mysqli_num_rows($rs) > 0) {
+        $row = mysqli_fetch_assoc($rs);
+        $csv = trim((string)($row['mandatory_attributes'] ?? ''));
+        if ($csv !== '') {
+            $result['mandatory'] = array_values(array_filter(array_map('intval', array_map('trim', explode(',', $csv)))));
+        }
+    }
+} elseif ($categoryId !== '') {
+    // Backward compatibility: if only category is provided, try mapping via any subcategory under it (best-effort)
+    $cid = mysqli_real_escape_string($con, $categoryId);
+    $rs = mysqli_query($con, "SELECT mandatory_attributes FROM sub_category WHERE category_id='$cid' AND mandatory_attributes IS NOT NULL AND mandatory_attributes <> '' ORDER BY id LIMIT 1");
+    if ($rs && mysqli_num_rows($rs) > 0) {
+        $row = mysqli_fetch_assoc($rs);
+        $csv = trim((string)($row['mandatory_attributes'] ?? ''));
+        if ($csv !== '') {
+            $result['mandatory'] = array_values(array_filter(array_map('intval', array_map('trim', explode(',', $csv)))));
+        }
+    }
+}
+
+echo json_encode($result);
+exit;
+?>
+

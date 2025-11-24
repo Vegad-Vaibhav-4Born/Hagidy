@@ -1,0 +1,479 @@
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .cart-notification {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            line-height: 1.4;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .cart-notification:hover {
+            transform: translateY(-2px);
+        }
+        
+        .empty-cart {
+            padding: 40px 20px;
+        }
+        
+        .empty-cart h4 {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .empty-cart p {
+            color: #999;
+            margin-bottom: 20px;
+        }
+        
+        .loading-cart {
+            padding: 40px 20px;
+        }
+        
+        /* Address Form Validation Styles */
+        .form-control.validation-error {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+        }
+        
+        .form-control.validation-success {
+            border-color: #28a745 !important;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
+        }
+        
+        .field-error-message {
+            color: #dc3545 !important;
+            font-size: 12px !important;
+            margin-top: 5px !important;
+            display: block !important;
+            width: 100% !important;
+        }
+        
+        /* Number formatting styles */
+        .currency-amount {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .stock-info.text-success {
+            color: #28a745 !important;
+        }
+        
+        .stock-info.text-danger {
+            color: #dc3545 !important;
+        }
+        
+        .quantity-plus:disabled,
+        .quantity-minus:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .cart-position {
+            position: relative;
+        }
+        
+        .cart-position .quantity {
+            border-left: none !important;
+            border-right: none !important;
+        }
+        
+        .cart-position .quantity-plus,
+        .cart-position .quantity-minus {
+            border: 1px solid #ddd;
+            background: #f8f9fa;
+            transition: all 0.2s ease;
+        }
+        
+        .cart-position .quantity-plus:hover,
+        .cart-position .quantity-minus:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+        
+        /* Simple Coupon System Styles */
+        .applied-coupon-info {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        
+        .coupon-savings-display {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        /* Message Styles */
+        #coupon-message {
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        
+        #coupon-message.text-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        #coupon-message.text-danger {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        #coupon-message.text-info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        
+        /* Button States */
+        #apply-coupon-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .cart-sbu-color {
+            font-weight: 600;
+            color: #dc3545 !important;
+        }
+ 
+        /* Beautiful Notification System */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .notification {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            animation: slideInNotification 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .notification:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #28a745, #336699);
+            color: white;
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #dc3545, #ff9933);
+            color: white;
+        }
+
+        .notification.warning {
+            background: linear-gradient(135deg, #ff9933, #ffcc66);
+            color: #333;
+        }
+
+        .notification.info {
+            background: linear-gradient(135deg, #336699, #1914fe);
+            color: white;
+        }
+
+        .notification-icon {
+            margin-right: 12px;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .notification-message {
+            font-weight: 400;
+            font-size: 14px;
+            opacity: 0.95;
+            line-height: 1.4;
+        }
+
+        .notification-close {
+            margin-left: 12px;
+            cursor: pointer;
+            font-size: 18px;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+
+        .notification-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes slideInNotification {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutNotification {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .notification.slide-out {
+            animation: slideOutNotification 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        /* Login Required Modal Styles */
+        .login-required-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .login-required-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            animation: scaleIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .login-required-icon {
+            font-size: 64px;
+            color: #336699;
+            margin-bottom: 20px;
+        }
+
+        .login-required-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .login-required-message {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .login-required-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-login-required {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-login-required.primary {
+            background: linear-gradient(135deg, #336699, #1914fe);
+            color: white;
+        }
+
+        .btn-login-required.primary:hover {
+            background: linear-gradient(135deg, #1914fe, #336699);
+            transform: translateY(-2px);
+        }
+
+        .btn-login-required.secondary {
+            background: #f8f9fa;
+            color: #6c757d;
+            border: 1px solid #dee2e6;
+        }
+
+        .btn-login-required.secondary:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Payment Method Modal Styles */
+        .payment-methods {
+            margin: 20px 0;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .payment-option:hover {
+            border-color: #336699;
+            background: #f0f8ff;
+        }
+
+        .payment-option.selected {
+            border-color: #336699;
+            background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+        }
+
+        .payment-icon {
+            margin-right: 15px;
+            font-size: 24px;
+            color: #336699;
+            width: 40px;
+            text-align: center;
+        }
+
+        .payment-details {
+            flex: 1;
+        }
+
+        .payment-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .payment-desc {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .payment-radio {
+            margin-left: 15px;
+        }
+
+        .payment-radio input[type="radio"] {
+            display: none;
+        }
+
+        .payment-radio label {
+            display: block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .payment-radio input[type="radio"]:checked + label {
+            border-color: #336699;
+            background: #336699;
+        }
+
+        .payment-radio input[type="radio"]:checked + label::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+        
+        #free-shipping-coupon {
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        /* Loading animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .fa-spinner.fa-spin {
+            animation: spin 1s linear infinite;
+        }

@@ -1,0 +1,96 @@
+<div class="login-popup">
+    <div class="tab tab-nav-boxed tab-nav-center tab-nav-underline">
+        <ul class="nav nav-tabs text-uppercase" role="tablist">
+            <li class="nav-item">
+                <a href="#sign-in" class="nav-link active">Sign In</a>
+            </li>
+            <li class="nav-item">
+                <a href="#sign-up" class="nav-link">Sign Up</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="sign-in">
+                <form id="modal-login-form" method="POST" action="#">
+                    <div id="login-message" class="mb-3" style="display:none;"></div>
+                    <div class="form-group">
+                        <label>Mobile Number <span class="req-star">*</span></label>
+                        <input type="number" class="form-control" name="mobile" id="login-mobile" required>
+                    </div>
+                    <div class="form-group mb-0">
+                        <label>Password <span class="req-star">*</span></label>
+                        <input type="password" class="form-control" name="password" id="login-password" required>
+                    </div>
+                    <div class="form-checkbox d-flex align-items-center justify-content-between">
+                        <div>
+                            <input type="checkbox" class="custom-checkbox" id="login-remember" name="remember">
+                            <label for="login-remember">Remember me</label>
+                        </div>
+                        <a href="./forgot-password.php">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100" id="login-submit">Sign In</button>
+                </form>
+            </div>
+            <div class="tab-pane" id="sign-up">
+                <form id="modal-register-form" method="POST" action="#">
+                    <div id="register-message" class="mb-3" style="display:none;"></div>
+                    <div class="form-group">
+                        <label>First Name <span class="req-star">*</span></label>
+                        <input type="text" class="form-control" name="first_name" id="reg-first-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name <span class="req-star">*</span></label>
+                        <input type="text" class="form-control" name="last_name" id="reg-last-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile Number <span class="req-star">*</span></label>
+                        <input type="number" class="form-control" name="mobile" id="reg-mobile" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Email address <span class="req-star">*</span></label>
+                        <input type="email" class="form-control" name="email" id="reg-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password <span class="req-star">*</span></label>
+                        <input type="password" class="form-control" name="password" id="reg-password" required>
+                    </div>
+                    <div class="form-checkbox d-flex align-items-center justify-content-between">
+                        <a class="border-0">You have a refer code ?</a>
+                        <div class="yes-no-flex">
+                            <div class="form-checkbox user-checkbox mt-0 no-flex">
+                                <input type="radio" class="custom-radio radio-round" id="refer-no" name="refer_choice" value="no" checked>
+                                <label for="refer-no">No</label>
+                            </div>
+                            <div class="form-checkbox user-checkbox mt-0 no-flex">
+                                <input type="radio" class="custom-radio radio-round" id="refer-yes" name="refer_choice" value="yes">
+                                <label for="refer-yes">Yes</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="referral-box" style="display:none;">
+                        <div class="form-group">
+                            <label>Refer Code / Mobile Number</label>
+                            <div class="refer-verify">
+                                <input type="text" class="form-control" name="referral_code" id="referral_code">
+                                <button type="button" id="verify-referral" class="btn btn-primary btn-buy mb-1">Verify</button>
+                            </div>
+                        </div>
+                        <p id="ref-success" class="text-green" style="display:none;"></p>
+                        <p id="ref-error" class="text-red" style="display:none;">Oops! That referral code doesn’t exist.</p>
+                    </div>
+
+                    <p class="text-green d-none" id="referral-success"></p>
+                    <p class="text-red d-none" id="referral-error"></p>
+                    <p>Your personal data will be used to support your experience 
+                        throughout this website, to manage access to your account, 
+                        and for other purposes described in our <a href="privacy_policy.php" target="_blank" class="text-primary">Privacy Policy</a>.</p>
+                    <div class="form-checkbox d-flex align-items-center justify-content-between mb-5">
+                        <input type="checkbox" class="custom-checkbox" id="agree" name="agree" required="">
+                        <label for="agree" class="font-size-md">I agree to the <a href="privacy_policy.php" target="_blank" class="text-primary font-size-md">Privacy Policy</a></label>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100" id="register-submit">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

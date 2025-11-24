@@ -1,0 +1,83 @@
+
+
+.manufacture-content,
+.nav-prodcut-detail p,
+.packaging-content {
+    line-height: 1.6;
+    color: #333;
+    text-align: justify;
+}
+
+.product-description-section {
+    line-height: 1.6;
+    color: #333;
+    text-align: justify;
+}
+
+.read-more-btn {
+    font-size: 12px;
+    padding: 4px 12px;
+}
+
+.manufacture-preview,
+.packaging-preview,
+.description-preview {
+    margin-bottom: 0;
+}
+
+.manufacture-full,
+.packaging-full,
+.description-full {
+    margin-bottom: 0;
+}
+
+.fa-star-half-stroke {
+    color: #ffc107 !important;
+}
+
+/* Dynamic attribute buttons styling */
+.btn-small {
+    padding: 4px 10px;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #333;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.btn-small:hover {
+    border-color: #3B4B6B;
+    background: #f8f9fa;
+}
+
+.btn-small.active,
+.btn-small.selected {
+    background: #3B4B6B;
+    color: #fff;
+    border-color: #3B4B6B;
+}
+
+.color-one {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.color-one:hover {
+    border-color: #3B4B6B;
+    transform: scale(1.1);
+}
+
+.color-one.active,
+.color-one.selected {
+    border-color: #3B4B6B;
+    border-width: 3px;
+    transform: scale(1.1);
+}

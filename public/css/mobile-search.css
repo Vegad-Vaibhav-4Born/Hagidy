@@ -1,0 +1,8 @@
+.mobile-search-stick-positon {
+  width: 100%;
+  max-width: 100% !important;
+  top: 0;
+  z-index: 999;
+  border: 2px solid #4CAF50;
+  position: sticky;
+}

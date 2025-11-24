@@ -1,0 +1,55 @@
+.dropdown-item.active {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.dropdown-item:hover {
+    background-color: #f5f5f5;
+}
+
+.dropdown-item.active:hover {
+    background-color: #e3f2fd;
+}
+
+.status-updating {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.notification-toast {
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.status-badge {
+    transition: all 0.3s ease;
+}
+
+.status-badge.updating {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

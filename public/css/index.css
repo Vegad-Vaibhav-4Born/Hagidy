@@ -1,0 +1,225 @@
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px
+}
+
+.toast {
+    min-width: 240px;
+    max-width: 360px;
+    padding: 12px 14px;
+    border-radius: 6px;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .15);
+    opacity: .98;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px
+}
+
+.toast-success {
+    background: #16a34a
+}
+
+.toast-error {
+    background: #dc2626
+}
+
+.toast-info {
+    background: #2563eb
+}
+
+.toast-close {
+    background: transparent;
+    border: 0;
+    color: #fff;
+    margin-left: auto;
+    cursor: pointer
+}
+/* Login Required Modal Styles */
+.login-required-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+}
+
+.modal-content {
+    position: relative;
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px 30px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-icon {
+    margin-bottom: 20px;
+}
+
+.modal-icon i {
+    font-size: 48px;
+    color: #2563eb;
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 12px 0;
+}
+
+.modal-message {
+    font-size: 16px;
+    color: #6b7280;
+    line-height: 1.5;
+    margin: 0 0 30px 0;
+}
+
+.modal-login-btn {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.modal-login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+.modal-login-btn:active {
+    transform: translateY(0);
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+
+    .modal-title {
+        font-size: 20px;
+    }
+
+    .modal-message {
+        font-size: 14px;
+    }
+
+    .modal-icon i {
+        font-size: 40px;
+    }
+}
+.cart-variants {
+    margin-top: 4px;
+}
+
+.cart-variants .variant-item {
+    display: block;
+    color: #666;
+    font-size: 11px;
+    margin-bottom: 2px;
+}
+
+.cart-variants .color-swatch {
+    border: 1px solid #ddd;
+}
+
+.product-cart .product-price {
+    line-height: 1.2;
+}
+
+.product-cart .product-price small {
+    font-size: 10px;
+}
+#wishlist-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #3A4A6A;
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    min-width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    z-index: 1;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.wishlist {
+    position: relative;
+}
+
+/* Cart Count Styling - Consistent with Wishlist Count */
+#cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #3A4A6A;
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    min-width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    z-index: 1;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.cart-dropdown {
+    position: relative;
+}

@@ -1,0 +1,41 @@
+RewriteEngine On
+ 
+DirectoryIndex public/index.php
+ 
+Options -Indexes
+ 
+RewriteRule ^vendor/?$ app/pages/vendor/index.php [L]
+RewriteRule ^vendor/(.*)$ app/pages/vendor/$1 [L]
+RewriteRule ^admin/?$ app/pages/admin/index.php [L]
+RewriteRule ^admin/(.*)$ app/pages/admin/$1 [L]
+RewriteRule ^app/pages/admin/ - [L]
+RewriteRule ^app/pages/vendor/ - [L]
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+ 
+RewriteRule ^assets/css/(.*)$ public/css/$1 [L]
+RewriteRule ^assets/js/(.*)$ public/js/$1 [L]
+RewriteRule ^assets/images/(.*)$ public/images/$1 [L]
+RewriteRule ^assets/fonts/(.*)$ public/fonts/$1 [L]
+ 
+RewriteRule ^app/api/ - [L]      
+RewriteRule ^api/(.*)$ app/api/$1 [L]  
+ 
+RewriteRule ^app/(handlers|Helpers)/ - [L]
+ 
+RewriteRule ^app/ - [F,L]
+RewriteRule ^config/ - [F,L]
+RewriteRule ^storage/ - [F,L]
+RewriteRule ^vendor/ - [F,L]
+RewriteRule ^\.env$ - [F,L]
+ 
+RewriteCond %{REQUEST_URI} !^/public/index\.php$
+RewriteRule ^([A-Za-z0-9_\-\/]+)\.php$ public/index.php?route=$1 [QSA,L]
+ 
+RewriteCond %{REQUEST_URI} !^/public/index\.php$
+RewriteRule ^(.*)$ public/index.php?route=$1 [QSA,L]
+ 
+RewriteRule ^app/api/ - [L]
+
+RewriteRule ^app/ - [F,L]

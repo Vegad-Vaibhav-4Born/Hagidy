@@ -1,0 +1,221 @@
+<?php require_once __DIR__ . '/includes/init.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+    <title>TERMS & CONDITION | HAGIDY</title>
+
+    <meta name="keywords" content="Marketplace ecommerce responsive HTML5 Template" />
+    <meta name="description" content="Wolmart is powerful marketplace &amp; ecommerce responsive Html5 Template.">
+    <meta name="author" content="D-THEMES">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="<?php echo PUBLIC_ASSETS; ?>images/icons/favicon.png">
+
+    <!-- WebFont.js -->
+    <script>
+        WebFontConfig = {
+            google: {
+                families: ['Poppins:400,500,600,700']
+            }
+        };
+        (function(d) {
+            var wf = d.createElement('script'),
+                s = d.scripts[0];
+            wf.src = '<?php echo PUBLIC_ASSETS; ?>js/webfont.js';
+            wf.async = true;
+            s.parentNode.insertBefore(wf, s);
+        })(document);
+    </script>
+
+    <link rel="preload" href="<?php echo PUBLIC_ASSETS; ?>vendor/fontawesome-free/webfonts/fa-regular-400.woff2" as="font" type="font/woff2"
+        crossorigin="anonymous">
+    <link rel="preload" href="<?php echo PUBLIC_ASSETS; ?>vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2"
+        crossorigin="anonymous">
+    <link rel="preload" href="<?php echo PUBLIC_ASSETS; ?>vendor/fontawesome-free/webfonts/fa-brands-400.woff2" as="font" type="font/woff2"
+        crossorigin="anonymous">
+    <link rel="preload" href="<?php echo PUBLIC_ASSETS; ?>fonts/wolmart.woff?png09e" as="font" type="font/woff" crossorigin="anonymous">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="<?php echo PUBLIC_ASSETS; ?>vendor/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="<?php echo PUBLIC_ASSETS; ?>vendor/swiper/swiper-bundle.min.css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" type="text/css" href="<?php echo PUBLIC_ASSETS; ?>vendor/magnific-popup/magnific-popup.min.css">
+
+    <!-- Default CSS -->
+    <link rel="stylesheet" type="text/css" href="<?php echo PUBLIC_ASSETS; ?>css/style.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo PUBLIC_ASSETS; ?>css/demo12.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <?php include __DIR__ . '/../includes/header.php'; ?>
+
+
+        <main class="main about-page">
+            <!-- Start of Page Header -->
+            <div class="page-header mb-5">
+                <div class="container">
+                    <nav class="breadcrumb-nav ">
+                        <ul class="breadcrumb bb-no">
+                            <li><a href="./index.php">Home</a></li>
+                            <li>Terms and Conditions</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- End of Page Header -->
+
+            <!-- Start of PageContent -->
+            <div class="page-content">
+                <div class="container mb-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+
+
+                            <div class="card btn-shadow">
+                                <div class="card-body">
+
+                                    <h3 class="wishlist-title">Terms and Conditions</h3>
+
+                                    <div class="">
+                                        <p style="font-style: italic;color: red;margin-bottom: 5px;">Disclaimer: In the event of any discrepancy or conflict, the English version will prevail over the translation.
+                                        </p>
+                                        <p style="margin-bottom: 5px;"><strong>Effective Date:</strong> 20/09/2025</p>
+                                        <p style="margin-bottom: 5px;"><strong> Last Updated: </strong> 20/09/2025</p>
+                                        <p style="margin-bottom: 5px;">This document is an electronic record in terms of Information Technology Act, 2000 and rules there under as applicable and the amended provisions pertaining to electronic records in various statutes as amended by the Information Technology Act, 2000. This electronic record is generated by a computer system and does not require any physical or digital signatures. </p>
+
+                                        <strong>1. Introduction</strong>
+                                        <p>Welcome to <strong>Hagidy Technologies (Hagidy)</strong> (“Hagidy Technologies (Hagidy)”, “we”, “our”, “us”). Hagidy is a digital marketplace that connects sellers
+                                            (“Sellers”) with buyers (“Buyers”) for the purchase and sale of goods and services. By accessing or using our website, mobile application,
+                                            or related services (collectively “Platform”), you agree to be bound by these Terms and Conditions (“Terms”). If you do not agree
+                                            to these Terms, please do not use Hagidy.</p>
+
+                                        <strong>2. Eligibility</strong>
+                                        <p>You must be at least 18 years old and legally capable of entering binding agreements. Business accounts must comply with applicable
+                                            laws, licenses, and tax regulations of India. Hagidy reserves the right to verify user/business identity at any time.</p>
+
+                                        <strong>3. Account Registration &amp; Security</strong>
+                                        <p>Users must provide accurate and complete information during signup. You are responsible for keeping login credentials confidential.
+                                            Hagidy is not responsible for unauthorized account use due to negligence.</p>
+
+                                        <strong>4. Role of Hagidy</strong>
+                                        <p>Hagidy is a technology intermediary and does not own or directly sell products (unless explicitly stated).
+                                            Contracts are strictly between Buyers and Sellers. Hagidy does not guarantee product quality, compliance, delivery,
+                                            or returns, but may mediate disputes wherever possible.</p>
+
+                                        <strong>5. Buyer &amp; Seller Obligations</strong>
+                                        <p><strong>Sellers must:</strong></p>
+                                        <ul>
+                                            <li>Provide accurate listings, ensure product availability, and fulfill orders on time.</li>
+                                            <li>Hold valid licenses (e.g., FSSAI, BIS) where required.</li>
+                                            <li>Manage returns, refunds, and warranties as per Hagidy’s policies.</li>
+                                            <li>Respond to customers promptly and not infringe on IP rights.</li>
+                                        </ul>
+                                        <p><strong>Buyers must:</strong></p>
+                                        <ul>
+                                            <li>Provide accurate delivery details.</li>
+                                            <li>Pay using approved payment methods (UPI, cards, wallets, COD).</li>
+                                            <li>Not misuse return/refund facilities or engage in fraudulent activities.</li>
+                                        </ul>
+
+                                        <strong>6. Payments, Cashback &amp; Fees</strong>
+                                        <p>Payments are processed via secure third-party gateways. Cashback earned is non-transferable and subject to monthly minimum purchases.
+                                            Cashback is credited to the user bank account mentioned in their profile. Dormant Bank accounts can delay the Cashback credit.</p>
+                                        <p>Sellers agree to pay commissions/service fees as per Hagidy’s Fee Schedule along with applicable GST (18%).</p>
+
+                                        <strong>7. Community &amp; Referral Program</strong>
+                                        <p>Hagidy follows a community cashback system where everyone is eligible for cashback based on their purchases.
+                                            The company has the rights to change the Cashback percentage, amount, or model anytime without prior communication.</p>
+                                        <p>Eligibility requires at least purchases worth 10 Hagidy Coins to be part of the Cashback community.
+                                            Referrals are valid only for successfully registered and purchasing users. Cashback credits are processed the following month (before the 10th).
+                                            Misuse of referrals (fake accounts, self-referrals) will lead to account termination and forfeiture of earnings.</p>
+
+                                        <strong>8. Shipping, Returns &amp; Refunds</strong>
+                                        <p>Sellers handle timely dispatch and delivery unless Hagidy logistics is used. Delivery timelines depend on vendor location and logistics partner.
+                                            Returns and refunds are governed by Hagidy’s Return & Refund Policy. Buyers must raise return requests within 3 days from delivery time.
+                                            Returned items must be unused, with original packaging and tags. Hagidy may mediate disputes but final resolution rests with the Seller.</p>
+
+                                        <strong>9. Prohibited Activities</strong>
+                                        <p><strong>Sellers must not:</strong></p>
+                                        <ul>
+                                            <li>Sell counterfeit, illegal, or restricted goods.</li>
+                                            <li>Engage in fraud, identity theft, or misrepresentation.</li>
+                                            <li>Exploit or manipulate the platform for unauthorized gains.</li>
+                                            <li>Upload harmful code, misuse customer data, or impersonate others.</li>
+                                            <li>Damage Hagidy’s reputation or system integrity.</li>
+                                        </ul>
+
+                                        <strong>10. Intellectual Property</strong>
+                                        <p>Hagidy owns its platform content, software, and trademarks.
+                                            Sellers retain ownership of their brand content but grant Hagidy a license/permission to display them.
+                                            Users may not copy, reproduce, or distribute Hagidy’s content without consent.</p>
+
+                                        <strong>11. User-Generated Content (UGC)</strong>
+                                        <p>Buyers and Sellers may post reviews, ratings, or comments.
+                                            Hagidy reserves the right to remove misleading, defamatory, or abusive content.
+                                            By posting UGC, users grant Hagidy a non-exclusive, royalty-free license to use it for promotions.</p>
+
+                                        <strong>12. Liability &amp; Indemnification</strong>
+                                        <p>Hagidy’s liability is limited to direct damages arising solely from gross negligence,
+                                            capped at the commission earned from the disputed transaction.
+                                            Hagidy is not liable for indirect losses such as profit or goodwill.
+                                            Users (Buyers &amp; Sellers) agree to indemnify Hagidy against claims, damages, or legal costs arising from policy violations.</p>
+
+                                        <strong>13. Confidentiality &amp; Data Protection</strong>
+                                        <p>Users must not misuse confidential business or customer data.
+                                            Hagidy implements strong security measures but is not liable for breaches beyond reasonable safeguards.
+                                            Users must not share login credentials with others.</p>
+
+                                        <strong>14. Force Majeure</strong>
+                                        <p>Hagidy is not liable for delays or service failures caused by events beyond its control,
+                                            including natural disasters, strikes, cyberattacks, or government actions.</p>
+
+                                        <strong>15. Amendments &amp; Severability</strong>
+                                        <p>Hagidy may revise these Terms without prior notice. Continued use constitutes acceptance.
+                                            If any clause is unenforceable, the remaining Terms remain valid.</p>
+
+                                        <strong>16. Acceptance of Terms</strong>
+                                        <p>By registering on or using Hagidy Marketplace, you acknowledge that you have read,
+                                            understood, and agreed to be bound by these Terms and Conditions.</p>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of PageContent -->
+        </main>
+
+        <!-- Start of Footer -->
+        <?php include __DIR__ . '/../includes/footer.php'; ?>
+        <!-- End of Footer -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+
+    <!-- Plugin JS File -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="<?php echo PUBLIC_ASSETS; ?>vendor/jquery/jquery.min.js"></script>
+    <script src="<?php echo PUBLIC_ASSETS; ?>vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="<?php echo PUBLIC_ASSETS; ?>vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script src="<?php echo PUBLIC_ASSETS; ?>js/main.min.js"></script>
+
+</body>
+
+</html>

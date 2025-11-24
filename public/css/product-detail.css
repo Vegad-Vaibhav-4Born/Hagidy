@@ -1,0 +1,569 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+    color: #495057;
+}
+
+.tab-pane {
+    animation: fadeIn 0.3s ease-in;
+}
+
+.swiper-wrapper-vendor {
+    height: auto !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Video Gallery Styles */
+.product-video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+}
+
+.product-video {
+    width: 100%;
+    height: 100%;
+    max-width: 800px;
+    max-height: 900px;
+    object-fit: contain;
+    background-color: #000;
+    border-radius: 8px;
+}
+
+/* Video Thumbnail Styles */
+.product-thumb-video {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.product-thumb-video-element {
+    /* width: 100%;
+    height: 100%; */
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.video-play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.product-thumb-video:hover .video-play-icon {
+    background-color: rgba(0, 0, 0, 0.9);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Responsive Video Styles */
+@media (max-width: 768px) {
+    .product-video {
+        max-height: 400px;
+    }
+
+    .video-play-icon {
+        width: 25px;
+        height: 25px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-video {
+        max-height: 300px;
+    }
+
+    .video-play-icon {
+        width: 20px;
+        height: 20px;
+        font-size: 8px;
+    }
+}
+
+/* Ensure video maintains aspect ratio */
+.product-gallery .swiper-slide:has(.product-video) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Video thumbnail hover effects */
+.product-thumb-video:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+/* Active video thumbnail styling */
+.product-thumb-video.active {
+    border: 2px solid #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+}
+
+
+
+/* Enhanced Variant Display Styling - Seamless List */
+.product-variation-form {
+    margin-bottom: 0;
+    padding: 12px 0;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.product-variation-form:last-child {
+    border-bottom: none;
+}
+
+.product-variation-form label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 0;
+    display: inline-block;
+    text-transform: capitalize;
+    min-width: 80px;
+    flex-shrink: 0;
+}
+
+.product-variations {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    flex: 1;
+}
+
+/* Color Swatch Styling */
+.product-color-swatch .color {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid #e0e0e0;
+    margin: 4px;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+}
+
+.product-color-swatch .color:hover {
+    border-color: #007bff;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.product-color-swatch .color.selected {
+    border-color: #007bff;
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+.product-color-swatch .color::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px;
+    color: #666;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2px 6px;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-color-swatch .color:hover::after {
+    opacity: 1;
+}
+
+/* Size Button Styling */
+.product-size-swatch .size {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 45px;
+    height: 40px;
+    padding: 8px 12px;
+    margin: 4px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fff;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.product-size-swatch .size:hover {
+    border-color: #007bff;
+    background: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+.product-size-swatch .size.selected {
+    border-color: #007bff;
+    background: #007bff;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Other Variant Options Styling */
+.product-variant-swatch .variant-option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    height: 40px;
+    padding: 8px 16px;
+    margin: 4px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fff;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.product-variant-swatch .variant-option:hover {
+    border-color: #007bff;
+    background: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+.product-variant-swatch .variant-option.selected {
+    border-color: #007bff;
+    background: #007bff;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Clean All Button */
+.product-variation-clean {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 6px 12px;
+    background: #f8f9fa;
+    color: #666;
+    text-decoration: none;
+    font-size: 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.product-variation-clean:hover {
+    background: #e9ecef;
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .product-variations {
+        gap: 6px;
+    }
+
+    .product-color-swatch .color {
+        width: 35px;
+        height: 35px;
+    }
+
+    .product-size-swatch .size,
+    .product-variant-swatch .variant-option {
+        min-width: 40px;
+        height: 35px;
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+/* Animation for selection */
+@keyframes selectPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.product-color-swatch .color.selected,
+.product-size-swatch .size.selected,
+.product-variant-swatch .variant-option.selected {
+    animation: selectPulse 0.3s ease;
+}
+
+/* Enhanced Interactive Features */
+.product-variation-form {
+    position: relative;
+}
+
+.product-variation-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.product-variation-form:hover::before {
+    opacity: 0.3;
+}
+
+/* Selection Counter */
+.variant-selection-counter {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #007bff;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s ease;
+}
+
+.product-variation-form.has-selection .variant-selection-counter {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Loading State */
+.product-variations.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.product-variations.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+.btn-wishlist {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.btn-wishlist:hover {
+    transform: scale(1.1);
+}
+
+.btn-wishlist.active,
+.btn-wishlist.in-wishlist {
+    color: #ff4757 !important;
+}
+
+.btn-wishlist.active i,
+.btn-wishlist.in-wishlist i,
+.btn-wishlist.active .w-icon-heart,
+.btn-wishlist.in-wishlist .w-icon-heart {
+    color: #ff4757 !important;
+}
+
+/* Additional selectors to ensure color change */
+.btn-wishlist.active:before,
+.btn-wishlist.in-wishlist:before {
+    color: #ff4757 !important;
+}
+
+/* Force color change for all possible heart icon variations */
+.product-details .btn-wishlist.active,
+.product-details .btn-wishlist.in-wishlist,
+.product-link-wrapper .btn-wishlist.active,
+.product-link-wrapper .btn-wishlist.in-wishlist,
+.product-popup .btn-wishlist.active,
+.product-popup .btn-wishlist.in-wishlist {
+    color: #ff4757 !important;
+}
+
+/* Ensure heart icons change color */
+.btn-wishlist.active .w-icon-heart:before,
+.btn-wishlist.in-wishlist .w-icon-heart:before,
+.btn-wishlist.active::before,
+.btn-wishlist.in-wishlist::before {
+    color: #ff4757 !important;
+}
+
+/* Override any theme colors */
+.btn-wishlist.active,
+.btn-wishlist.in-wishlist {
+    background: none !important;
+    border-color: transparent !important;
+}
+
+/* Additional icon font support */
+.btn-wishlist.active [class*="icon"],
+.btn-wishlist.in-wishlist [class*="icon"],
+.btn-wishlist.active [class*="fa-"],
+.btn-wishlist.in-wishlist [class*="fa-"],
+.btn-wishlist.active [class*="w-icon"],
+.btn-wishlist.in-wishlist [class*="w-icon"] {
+    color: #ff4757 !important;
+}
+
+/* Force red color with highest specificity */
+.btn-wishlist.active,
+.btn-wishlist.active *,
+.btn-wishlist.in-wishlist,
+.btn-wishlist.in-wishlist * {
+    color: #ff4757 !important;
+}
+
+/* Specific styles for full heart icon when in wishlist */
+.btn-wishlist.w-icon-heart-full,
+.btn-wishlist.w-icon-heart-full *,
+.btn-wishlist.active .w-icon-heart-full,
+.btn-wishlist.in-wishlist .w-icon-heart-full {
+    color: #ff4757 !important;
+}
+
+/* Regular heart icon styles */
+.btn-wishlist.w-icon-heart:not(.active):not(.in-wishlist) {
+    color: inherit;
+}
+
+/* Notification styles */
+.wishlist-notification {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 500;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.wishlist-notification-success {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+
+.wishlist-notification-error {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.wishlist-notification-info {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+/* Loading state */
+.btn-wishlist[style*="opacity: 0.6"] {
+    cursor: not-allowed !important;
+}
+.vendor-logo-custom {
+    width: 60px;
+    height: 60px;
+    background-color: #131313;
+    padding: 20px;
+    border-radius: 50%;
+    color: white;
+    font-size: 20px;
+}
+
+.star-icon i {
+    color: #ccc;
+    /* default gray for empty stars */
+    margin-right: 3px;
+    font-size: 16px;
+}
+
+.star-icon .star-done {
+    color: #f5c518;
+    /* yellow color for filled stars */
+}
+
+.star-icon span {
+    margin-left: 5px;
+    color: #555;
+    font-size: 14px;
+}

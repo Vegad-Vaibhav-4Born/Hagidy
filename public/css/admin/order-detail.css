@@ -1,0 +1,283 @@
+
+.vendor-track {
+    font-size: 12px
+}
+
+.vendor-track .vendor-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 8px 0 4px 0
+}
+
+.vendor-track .vendor-name {
+    font-weight: 600
+}
+
+.vendor-track .prod-list {
+    margin: 0 0 8px 22px;
+    padding: 0;
+    list-style: disc
+}
+
+.vendor-track .date {
+    color: #6c757d
+}
+
+/* horizontal timeline */
+.vt-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 22px;
+    flex-wrap: wrap
+}
+
+.vt-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px
+}
+
+.vt-dot {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 3px solid #dee2e6;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.vt-dot-none {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.vt-connector {
+    height: 4px;
+    background: #dee2e6;
+    flex: 1;
+    border-radius: 2px
+}
+
+.vt-connector.done {
+    background: #39b86c
+}
+
+.vt-title {
+    font-weight: 600;
+    margin-top: 6px
+}
+
+.vt-when {
+    font-size: 11px;
+    color: #6c757d
+}
+
+/* small timeline for table cell */
+.vt-line.sm {
+    gap: 8px;
+    margin-left: 0
+}
+
+.vt-line.sm .vt-step {
+    min-width: 80px
+}
+
+.vt-line.sm .vt-dot {
+    width: 20px;
+    height: 20px;
+}
+
+.vt-line.sm .vt-title {
+    font-weight: 500;
+    margin-top: 4px;
+    font-size: 11px
+}
+
+.vt-line.sm .vt-when {
+    font-size: 10px
+}
+
+/* Color indicator styles */
+.color-indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+.variant-item {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 4px 6px;
+    margin: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.variant-label strong {
+    font-size: 12px;
+}
+
+.variant-value {
+    color: #6c757d;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+/* Enhanced Variant Display Styles */
+.variant-specs {
+    margin-top: 8px;
+}
+
+/* Print-only styles */
+@media print {
+    @page {
+        size: A4;
+        margin: 10mm 8mm 10mm 8mm;
+    }
+
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact
+    }
+
+    body * {
+        visibility: hidden !important
+    }
+
+    #print-cart,
+    #print-cart * {
+        visibility: visible !important
+    }
+
+    #print-cart {
+        z-index: 9999 !important
+    }
+
+    #print-cart {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 12px !important;
+        background: #fff !important
+    }
+
+    .app-header,
+    .app-sidebar,
+    .footer,
+    .btn-print,
+    .page-header-breadcrumb,
+    .offcanvas,
+    #switcher-canvas {
+        display: none !important
+    }
+
+    .card.custom-card {
+        box-shadow: none !important;
+        border: 0 !important
+    }
+
+    table {
+        width: 100% !important;
+        border-collapse: collapse !important
+    }
+
+    th,
+    td {
+        border-bottom: 1px solid #e9ecef !important;
+        padding: 8px 6px !important
+    }
+
+    .detail-total-text {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px dashed #e9ecef;
+        padding: 6px 0
+    }
+
+    .detali-img1 img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover
+    }
+
+    .print-invoice .print-header {
+        display: block !important;
+        margin: 0 0 12px 0;
+        border-bottom: 2px solid #000;
+        padding-bottom: 8px
+    }
+
+    .print-invoice .print-header h2 {
+        margin: 0 0 4px 0;
+        font-size: 18px
+    }
+
+    .print-invoice .print-meta {
+        font-size: 12px;
+        color: #555
+    }
+
+    .screen-only {
+        display: none !important
+    }
+
+    .print-invoice {
+        display: block !important
+    }
+
+    .pi-table th {
+        background: #f2f4f7 !important;
+        font-weight: 700 !important
+    }
+
+    .pi-title {
+        font-weight: 700;
+        font-size: 16px;
+        margin: 8px 0
+    }
+
+    .pi-summary {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 8px
+    }
+
+    .pi-summary table {
+        max-width: 360px;
+        border: 1px solid #e9ecef
+    }
+
+    .pi-summary td {
+        padding: 6px 10px !important
+    }
+
+    .pi-summary tr:last-child td {
+        font-weight: 700;
+        border-top: 2px solid #000
+    }
+
+    .avoid-break {
+        page-break-inside: avoid
+    }
+}
+
+.print-invoice {
+    display: none
+}
