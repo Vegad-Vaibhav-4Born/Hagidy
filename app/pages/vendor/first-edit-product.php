@@ -298,11 +298,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $_SESSION[$session_images_key] = array_values($updated_session_images);
             $image_removed = true;
         }
+        // Check if this is an AJAX request
+        $is_ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+        
         if ($image_removed) {
-                    // Success - redirect back to the same page
-                    $redirect_url = 'first-edit-product.php?id=' . urlencode($product_id);
-                    header('Location: ' . $redirect_url);
-                    exit;
+            if ($is_ajax) {
+                // Return JSON response for AJAX requests
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Image removed successfully',
+                    'image_path' => $image_path
+                ]);
+                exit;
+            } else {
+                // Success - redirect back to the same page (for non-AJAX requests)
+                $redirect_url = 'first-edit-product.php?id=' . urlencode($product_id);
+                header('Location: ' . $redirect_url);
+                exit;
+            }
+        } else {
+            if ($is_ajax) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Failed to remove image'
+                ]);
+                exit;
+            }
         }
     }
 }
@@ -1631,10 +1654,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             const existingImages = <?php echo json_encode($existing_images_array); ?>;
             const remainingImages = Array.from(document.querySelectorAll('.variant-previews .add-productbu[data-file-type="existing"]'));
             const remainingPaths = remainingImages.map(item => {
+                // Get the image path from dataset first (most reliable)
+                if (item.dataset.imagePath) {
+                    return item.dataset.imagePath;
+                }
+                // Fallback to extracting from img src
                 const img = item.querySelector('img');
-                return img ? img.src.replace(window.location.origin + '/', '') : '';
+                if (img) {
+                    const src = img.src;
+                    // Remove base URL to get relative path
+                    const baseurl = '<?php echo USER_BASEURL; ?>' + 'public/';
+                    if (src.startsWith(baseurl)) {
+                        return src.replace(baseurl, '');
+                    }
+                    // Try removing origin
+                    return src.replace(window.location.origin + '/', '');
+                }
+                return '';
             }).filter(path => path);
-            const removedImages = existingImages.filter(img => !remainingPaths.includes(img));
+            
+            // Normalize paths for comparison (remove leading/trailing slashes)
+            const normalizePath = (p) => String(p).replace(/^\/+|\/+$/g, '');
+            const normalizedRemaining = remainingPaths.map(normalizePath);
+            
+            // Find removed images by comparing normalized paths
+            const removedImages = existingImages.filter(img => {
+                const normalizedImg = normalizePath(img);
+                return !normalizedRemaining.some(remaining => {
+                    const normalizedRemaining = normalizePath(remaining);
+                    const imgBasename = normalizedImg.split('/').pop() || '';
+                    const remainingBasename = normalizedRemaining.split('/').pop() || '';
+                    return normalizedImg === normalizedRemaining || 
+                           imgBasename === remainingBasename;
+                });
+            });
+            
             document.getElementById('removed_images').value = JSON.stringify(removedImages);
         }
         // Function to calculate discount dynamically
@@ -1834,34 +1888,101 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                     this.parentNode.appendChild(fallback);
                 };
             }
-            // Show modal
-            const bsModal = new bootstrap.Modal(modal);
-            bsModal.show();
-            // Handle confirm delete
+            // Store current imagePath and item reference in modal data attributes
+            modal.dataset.currentImagePath = imagePath;
+            if (item) {
+                modal.dataset.currentItemId = item.dataset.imagePath || imagePath;
+            }
+            
+            // Get or create modal instance
+            let bsModal = bootstrap.Modal.getInstance(modal);
+            if (!bsModal) {
+                bsModal = new bootstrap.Modal(modal);
+            }
+            
+            // Reset button state every time modal is opened
             const confirmBtn = modal.querySelector('#confirmDeleteBtn');
-            confirmBtn.onclick = () => {
-                // Create and submit form to remove image from database
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.style.display = 'none';
-                const actionInput = document.createElement('input');
-                actionInput.type = 'hidden';
-                actionInput.name = 'action';
-                actionInput.value = 'remove_image';
-                const imagePathInput = document.createElement('input');
-                imagePathInput.type = 'hidden';
-                imagePathInput.name = 'image_path';
-                imagePathInput.value = imagePath;
-                const productIdInput = document.createElement('input');
-                productIdInput.type = 'hidden';
-                productIdInput.name = 'product_id';
-                productIdInput.value = '<?php echo htmlspecialchars($editing_product_id ?? ''); ?>';
-                form.appendChild(actionInput);
-                form.appendChild(imagePathInput);
-                form.appendChild(productIdInput);
-                document.body.appendChild(form);
-                form.submit();
-            };
+            confirmBtn.disabled = false;
+            confirmBtn.textContent = 'Delete Image';
+            
+            // Remove any existing click handlers by replacing the button
+            const newConfirmBtn = confirmBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+            
+            // Set up the delete handler
+            newConfirmBtn.addEventListener('click', async function handleDelete() {
+                // Get current values from modal data
+                const currentImagePath = modal.dataset.currentImagePath;
+                const currentItemId = modal.dataset.currentItemId;
+                
+                // Find the item element
+                let currentItem = item;
+                if (!currentItem && currentItemId) {
+                    // Try to find the item by its data attribute
+                    currentItem = document.querySelector(`.add-productbu[data-image-path="${currentItemId}"]`) ||
+                                 document.querySelector(`.add-productbu[data-file-type="existing"][data-image-path*="${currentItemId.split('/').pop()}"]`);
+                }
+                
+                // Disable button to prevent double submission
+                newConfirmBtn.disabled = true;
+                newConfirmBtn.textContent = 'Deleting...';
+                
+                try {
+                    // Create FormData for AJAX request
+                    const formData = new FormData();
+                    formData.append('action', 'remove_image');
+                    formData.append('image_path', currentImagePath);
+                    formData.append('product_id', '<?php echo htmlspecialchars($editing_product_id ?? ''); ?>');
+                    
+                    // Send AJAX request
+                    const response = await fetch(window.location.href, {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Close modal
+                        bsModal.hide();
+                        
+                        // Remove the image element from DOM
+                        if (currentItem && currentItem.parentNode) {
+                            currentItem.remove();
+                        } else {
+                            // Fallback: try to find and remove by image path
+                            const allItems = document.querySelectorAll('.add-productbu[data-file-type="existing"]');
+                            allItems.forEach(imgItem => {
+                                const itemPath = imgItem.dataset.imagePath || '';
+                                if (itemPath === currentImagePath || 
+                                    itemPath === currentItemId ||
+                                    itemPath.includes(currentImagePath.split('/').pop()) ||
+                                    currentImagePath.includes(itemPath.split('/').pop())) {
+                                    imgItem.remove();
+                                }
+                            });
+                        }
+                        
+                        // Update the removed_images hidden field
+                        updateRemovedImagesList();
+                    } else {
+                        alert('Failed to remove image: ' + (result.message || 'Unknown error'));
+                        newConfirmBtn.disabled = false;
+                        newConfirmBtn.textContent = 'Delete Image';
+                    }
+                } catch (error) {
+                    console.error('Error removing image:', error);
+                    alert('An error occurred while removing the image. Please try again.');
+                    newConfirmBtn.disabled = false;
+                    newConfirmBtn.textContent = 'Delete Image';
+                }
+            });
+            
+            // Show the modal
+            bsModal.show();
         }
         // Function to remove video
         function removeVideo() {

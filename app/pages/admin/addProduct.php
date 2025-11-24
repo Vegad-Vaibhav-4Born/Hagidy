@@ -8,13 +8,14 @@ if (!isset($_SESSION['superadmin_id'])) {
 $superadmin_id = $_SESSION['superadmin_id'];
 $editing_product_id = isset($_GET['id']) ? trim($_GET['id']) : '';
 $existing_product = null;
+$vendor_id = '';
 if (!empty($editing_product_id)) {
-    $rs_prefill = mysqli_query($con, "SELECT * FROM products WHERE id={$editing_product_id} LIMIT 1");
+    $rs_prefill = mysqli_query($con, "SELECT * FROM products WHERE id='" . mysqli_real_escape_string($con, $editing_product_id) . "' LIMIT 1");
     if ($rs_prefill && mysqli_num_rows($rs_prefill) > 0) {
         $existing_product = mysqli_fetch_assoc($rs_prefill);
+        $vendor_id = isset($existing_product['vendor_id']) ? $existing_product['vendor_id'] : '';
     }
 }
-$vendor_id = isset($existing_product['vendor_id']) ? $existing_product['vendor_id'] : '';
 
 // Inline AJAX: return attribute values for a given attribute id
 if (isset($_GET['ajax']) && $_GET['ajax'] === 'attribute_values') {
@@ -49,22 +50,36 @@ if (empty($editing_product_id_temp) && isset($_SESSION['editing_product_id'])) {
 
 // Pull pending payload and images from previous step
 // Use product ID-specific session keys for edit mode, or regular keys for new products
+// Check for admin-specific keys first (from first-edit-product.php), then fallback to regular keys
 if (!empty($editing_product_id_temp)) {
+    // Try admin-specific keys first (used by first-edit-product.php)
+    $session_images_key_admin = 'pending_product_images_admin_' . $editing_product_id_temp;
+    $session_video_key_admin = 'pending_product_video_admin_' . $editing_product_id_temp;
+    $session_videos_key_admin = 'pending_product_videos_admin_' . $editing_product_id_temp;
+    $session_path_key_admin = 'pending_product_path_admin_' . $editing_product_id_temp;
+    $session_payload_key_admin = 'pending_product_payload_admin_' . $editing_product_id_temp;
+    
+    // Fallback to regular keys (for backward compatibility)
     $session_images_key = 'pending_product_images_' . $editing_product_id_temp;
     $session_video_key = 'pending_product_video_' . $editing_product_id_temp;
     $session_videos_key = 'pending_product_videos_' . $editing_product_id_temp;
     $session_path_key = 'pending_product_path_' . $editing_product_id_temp;
     $session_payload_key = 'pending_product_payload_' . $editing_product_id_temp;
     
-    $pending_images = isset($_SESSION[$session_images_key]) ? $_SESSION[$session_images_key] : [];
-    $pending_video = isset($_SESSION[$session_video_key]) ? $_SESSION[$session_video_key] : '';
-    $pending_path = isset($_SESSION[$session_path_key]) ? $_SESSION[$session_path_key] : null;
-    $pending_payload_json = isset($_SESSION[$session_payload_key]) ? $_SESSION[$session_payload_key] : '';
+    // Use admin keys if they exist, otherwise use regular keys
+    $pending_images = isset($_SESSION[$session_images_key_admin]) ? $_SESSION[$session_images_key_admin] : (isset($_SESSION[$session_images_key]) ? $_SESSION[$session_images_key] : []);
+    $pending_video = isset($_SESSION[$session_video_key_admin]) ? $_SESSION[$session_video_key_admin] : (isset($_SESSION[$session_video_key]) ? $_SESSION[$session_video_key] : '');
+    $pending_path = isset($_SESSION[$session_path_key_admin]) ? $_SESSION[$session_path_key_admin] : (isset($_SESSION[$session_path_key]) ? $_SESSION[$session_path_key] : null);
+    $pending_payload_json = isset($_SESSION[$session_payload_key_admin]) ? $_SESSION[$session_payload_key_admin] : (isset($_SESSION[$session_payload_key]) ? $_SESSION[$session_payload_key] : '');
+    
+    // Also check for videos array (admin version)
+    $pending_videos = isset($_SESSION[$session_videos_key_admin]) ? $_SESSION[$session_videos_key_admin] : (isset($_SESSION[$session_videos_key]) ? $_SESSION[$session_videos_key] : []);
 } else {
     $pending_images = isset($_SESSION['pending_product_images']) ? $_SESSION['pending_product_images'] : [];
     $pending_video = isset($_SESSION['pending_product_video']) ? $_SESSION['pending_product_video'] : '';
     $pending_path = isset($_SESSION['pending_product_path']) ? $_SESSION['pending_product_path'] : null;
     $pending_payload_json = isset($_SESSION['pending_product_payload']) ? $_SESSION['pending_product_payload'] : '';
+    $pending_videos = isset($_SESSION['pending_product_videos']) ? $_SESSION['pending_product_videos'] : [];
 }
 
 $pending_payload = [];
@@ -96,18 +111,29 @@ error_log("Editing product ID determined: " . $editing_product_id);
 $existing_product = null;
 // Only clear stale session data if we're not just viewing the page
 if (!empty($editing_product_id) && !isset($_GET['view_only'])) {
-    // Use product ID-specific session key
+    // Use product ID-specific session key (check both admin and regular versions)
     $session_specs_key = 'existing_specifications_' . $editing_product_id;
+    $session_specs_key_admin = 'existing_specifications_admin_' . $editing_product_id;
     // Only clear if we're starting a fresh edit, not when navigating back
-    if (!isset($_SESSION[$session_specs_key])) {
-        unset($_SESSION[$session_specs_key]);
+    if (!isset($_SESSION[$session_specs_key]) && !isset($_SESSION[$session_specs_key_admin])) {
+        unset($_SESSION[$session_specs_key], $_SESSION[$session_specs_key_admin]);
         error_log("Cleared stale session data for product edit: " . $editing_product_id);
     }
 }
 if (!empty($editing_product_id)) {
-    $rs_prefill = mysqli_query($con, "SELECT * FROM products WHERE id='" . mysqli_real_escape_string($con, $editing_product_id) . "' AND vendor_id='" . mysqli_real_escape_string($con, $vendor_id) . "' LIMIT 1");
-    if ($rs_prefill && mysqli_num_rows($rs_prefill) > 0) {
-        $existing_product = mysqli_fetch_assoc($rs_prefill);
+    // Admin can edit any product, so don't filter by vendor_id
+    // If existing_product wasn't loaded earlier, load it now
+    if (empty($existing_product)) {
+        $rs_prefill = mysqli_query($con, "SELECT * FROM products WHERE id='" . mysqli_real_escape_string($con, $editing_product_id) . "' LIMIT 1");
+        if ($rs_prefill && mysqli_num_rows($rs_prefill) > 0) {
+            $existing_product = mysqli_fetch_assoc($rs_prefill);
+            // Ensure vendor_id is set from existing product
+            if (empty($vendor_id) && isset($existing_product['vendor_id'])) {
+                $vendor_id = $existing_product['vendor_id'];
+            }
+        }
+    }
+    if (!empty($existing_product)) {
         // If no pending payload from session, use existing product data
         if (empty($pending_payload)) {
             $pending_payload = [
@@ -142,20 +168,25 @@ if (!empty($editing_product_id)) {
             }
         }
         // Handle existing specifications - load from database ONLY if not already loaded before
-        // Use product ID-specific session key
+        // Use product ID-specific session key (check both admin and regular versions)
         $session_specs_key = 'existing_specifications_' . $editing_product_id;
+        $session_specs_key_admin = 'existing_specifications_admin_' . $editing_product_id;
         $session_loaded_flag_key = 'db_specs_loaded_' . $editing_product_id;
+        
+        // Check if specs exist in either admin or regular session key
+        $existing_specs_in_session = isset($_SESSION[$session_specs_key_admin]) ? $_SESSION[$session_specs_key_admin] : (isset($_SESSION[$session_specs_key]) ? $_SESSION[$session_specs_key] : null);
         
         // Only load from database if we haven't loaded it before (first visit)
         // This prevents overwriting localStorage data on page refresh
         if (!isset($_SESSION[$session_loaded_flag_key]) || $_SESSION[$session_loaded_flag_key] !== true) {
-            if (!isset($_SESSION[$session_specs_key]) || empty($_SESSION[$session_specs_key])) {
+            if (empty($existing_specs_in_session)) {
                 $existing_specifications = $existing_product['specifications'] ?? '';
                 if (!empty($existing_specifications)) {
                     $decoded_specs = json_decode($existing_specifications, true);
                     if (is_array($decoded_specs)) {
-                        // Set fresh data from database (first time only)
-                        $_SESSION[$session_specs_key] = $decoded_specs;
+                        // Set fresh data from database (first time only) - use admin key if we're in admin context
+                        $key_to_use = isset($_SESSION['superadmin_id']) ? $session_specs_key_admin : $session_specs_key;
+                        $_SESSION[$key_to_use] = $decoded_specs;
                         $_SESSION[$session_loaded_flag_key] = true; // Mark as loaded
                         // Debug: Log the specifications for troubleshooting
                         error_log("Existing specifications loaded from database for product " . $editing_product_id . " (FIRST VISIT): " . print_r($decoded_specs, true));
@@ -414,8 +445,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
     // Build full image paths using proper folder structure: uploads/vendors/businessname/productname/
     // Get business name from vendor details first
     $businessName = '';
-    if (isset($con) && $con && isset($_SESSION['vendor_reg_id'])) {
-        $vendorId = mysqli_real_escape_string($con, $_SESSION['vendor_reg_id']);
+    // In admin context, get vendor_id from existing product or payload
+    $vendorIdForPath = '';
+    if (!empty($vendor_id)) {
+        $vendorIdForPath = $vendor_id;
+    } elseif (!empty($pending_payload) && isset($pending_payload['vendor_id'])) {
+        $vendorIdForPath = $pending_payload['vendor_id'];
+    } elseif (isset($_SESSION['vendor_reg_id'])) {
+        $vendorIdForPath = $_SESSION['vendor_reg_id'];
+    }
+    
+    if (isset($con) && $con && !empty($vendorIdForPath)) {
+        $vendorId = mysqli_real_escape_string($con, $vendorIdForPath);
         $rs = mysqli_query($con, "SELECT business_name FROM vendor_registration WHERE id = '$vendorId' LIMIT 1");
         if ($rs && mysqli_num_rows($rs) > 0) {
             $vendorData = mysqli_fetch_assoc($rs);
@@ -479,11 +520,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
     }
 
     // Support multiple videos: read from session array and store as comma-separated list
-    // Use product ID-specific session key for edit mode
-    $pending_videos = [];
+    // Use product ID-specific session key for edit mode (check admin version first)
+    // Note: $pending_videos may have been set earlier, but we check again here to ensure we have the latest
     if (!empty($editing_product_id)) {
+        $session_videos_key_admin = 'pending_product_videos_admin_' . $editing_product_id;
         $session_videos_key = 'pending_product_videos_' . $editing_product_id;
-        $pending_videos = isset($_SESSION[$session_videos_key]) && is_array($_SESSION[$session_videos_key]) ? $_SESSION[$session_videos_key] : [];
+        // Use admin key if it exists, otherwise use regular key
+        if (isset($_SESSION[$session_videos_key_admin]) && is_array($_SESSION[$session_videos_key_admin])) {
+            $pending_videos = $_SESSION[$session_videos_key_admin];
+        } elseif (isset($_SESSION[$session_videos_key]) && is_array($_SESSION[$session_videos_key])) {
+            $pending_videos = $_SESSION[$session_videos_key];
+        } else {
+            $pending_videos = isset($pending_videos) ? $pending_videos : [];
+        }
     } else {
         $pending_videos = isset($_SESSION['pending_product_videos']) && is_array($_SESSION['pending_product_videos']) ? $_SESSION['pending_product_videos'] : [];
     }
@@ -512,7 +561,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
             error_log("No pending video found");
         }
     }
-    $data['vendor_id'] = $vendor_id;
+    // Ensure vendor_id is always set - get from existing product if not already set
+    if (empty($vendor_id) && !empty($existing_product) && isset($existing_product['vendor_id'])) {
+        $vendor_id = $existing_product['vendor_id'];
+    }
+    // Also check in pending_payload (from first-edit-product.php)
+    if (empty($vendor_id) && !empty($pending_payload) && isset($pending_payload['vendor_id'])) {
+        $vendor_id = $pending_payload['vendor_id'];
+    }
+    // Ensure vendor_id is set in data array
+    if (!empty($vendor_id)) {
+        $data['vendor_id'] = $vendor_id;
+    } else {
+        error_log("WARNING: vendor_id is empty when trying to update product " . $editing_product_id);
+    }
     // Handle status for edit vs new
 
     if (!empty($editing_product_id)) {
@@ -707,7 +769,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                 $setParts[] = "$f = '" . mysqli_real_escape_string($con, $data[$f]) . "'";
             }
         }
-        $sql = "UPDATE products SET " . implode(', ', $setParts) . " WHERE id = '" . mysqli_real_escape_string($con, $editing_product_id) . "' AND vendor_id = '" . mysqli_real_escape_string($con, $vendor_id) . "'";
+        // Admin can update any product, so don't require vendor_id in WHERE clause
+        // But still include it in the SET clause if available
+        $where_clause = "WHERE id = '" . mysqli_real_escape_string($con, $editing_product_id) . "'";
+        if (!empty($vendor_id)) {
+            // Include vendor_id in WHERE clause for safety, but don't fail if it's missing
+            $where_clause .= " AND vendor_id = '" . mysqli_real_escape_string($con, $vendor_id) . "'";
+        }
+        $sql = "UPDATE products SET " . implode(', ', $setParts) . " " . $where_clause;
         // Debug: Log the UPDATE query and data
         error_log("UPDATE Query: " . $sql);
         error_log("UPDATE Data: " . print_r($data, true));
@@ -759,16 +828,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
         // Clear session buffers only after successful save
         // Clear both product ID-specific keys and regular keys (for backward compatibility)
         if (!empty($editing_product_id)) {
+            // Clear both admin and regular session keys
             $session_images_key = 'pending_product_images_' . $editing_product_id;
+            $session_images_key_admin = 'pending_product_images_admin_' . $editing_product_id;
             $session_video_key = 'pending_product_video_' . $editing_product_id;
+            $session_video_key_admin = 'pending_product_video_admin_' . $editing_product_id;
             $session_videos_key = 'pending_product_videos_' . $editing_product_id;
+            $session_videos_key_admin = 'pending_product_videos_admin_' . $editing_product_id;
             $session_path_key = 'pending_product_path_' . $editing_product_id;
+            $session_path_key_admin = 'pending_product_path_admin_' . $editing_product_id;
             $session_payload_key = 'pending_product_payload_' . $editing_product_id;
+            $session_payload_key_admin = 'pending_product_payload_admin_' . $editing_product_id;
             $session_specs_key = 'existing_specifications_' . $editing_product_id;
+            $session_specs_key_admin = 'existing_specifications_admin_' . $editing_product_id;
             $session_loaded_flag_key = 'db_specs_loaded_' . $editing_product_id;
-            // Clear all session data including the database load flag
+            // Clear all session data including the database load flag (both admin and regular versions)
             // This ensures next visit will load fresh from database
-            unset($_SESSION[$session_images_key], $_SESSION[$session_video_key], $_SESSION[$session_videos_key], $_SESSION[$session_path_key], $_SESSION[$session_payload_key], $_SESSION[$session_specs_key], $_SESSION[$session_loaded_flag_key]);
+            unset($_SESSION[$session_images_key], $_SESSION[$session_images_key_admin], 
+                  $_SESSION[$session_video_key], $_SESSION[$session_video_key_admin], 
+                  $_SESSION[$session_videos_key], $_SESSION[$session_videos_key_admin], 
+                  $_SESSION[$session_path_key], $_SESSION[$session_path_key_admin], 
+                  $_SESSION[$session_payload_key], $_SESSION[$session_payload_key_admin], 
+                  $_SESSION[$session_specs_key], $_SESSION[$session_specs_key_admin], 
+                  $_SESSION[$session_loaded_flag_key]);
         }
         // Also clear regular session keys (for new products)
         unset($_SESSION['pending_product_images'], $_SESSION['pending_product_video'], $_SESSION['pending_product_videos'], $_SESSION['pending_product_payload'], $_SESSION['pending_product_path'], $_SESSION['editing_product_id']);
@@ -3932,8 +4014,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                         if (!specsFromLocalStorage) {
                             <?php 
                             $session_specs_key = 'existing_specifications_' . $editing_product_id;
-                            if (isset($_SESSION[$session_specs_key]) && !empty($_SESSION[$session_specs_key])) {
-                                echo "existingSpecs = " . json_encode($_SESSION[$session_specs_key]) . ";";
+                            $session_specs_key_admin = 'existing_specifications_admin_' . $editing_product_id;
+                            // Check admin key first, then regular key
+                            $specs_data = isset($_SESSION[$session_specs_key_admin]) ? $_SESSION[$session_specs_key_admin] : (isset($_SESSION[$session_specs_key]) ? $_SESSION[$session_specs_key] : null);
+                            if (!empty($specs_data)) {
+                                echo "existingSpecs = " . json_encode($specs_data) . ";";
                             } else {
                                 echo "existingSpecs = null;";
                             }
@@ -5837,12 +5922,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                             console.log('Using specifications from localStorage:', existingSpecs);
                         } else if (<?php 
                             $session_specs_key = 'existing_specifications_' . $editing_product_id;
-                            echo isset($_SESSION[$session_specs_key]) ? 'true' : 'false'; 
+                            $session_specs_key_admin = 'existing_specifications_admin_' . $editing_product_id;
+                            // Check admin key first, then regular key
+                            $has_specs = isset($_SESSION[$session_specs_key_admin]) || isset($_SESSION[$session_specs_key]);
+                            echo $has_specs ? 'true' : 'false'; 
                         ?>) {
-                            // Fallback to session data (using product ID-specific key)
+                            // Fallback to session data (using product ID-specific key, check admin version first)
                             existingSpecs = <?php 
                                 $session_specs_key = 'existing_specifications_' . $editing_product_id;
-                                echo isset($_SESSION[$session_specs_key]) ? json_encode($_SESSION[$session_specs_key]) : 'null'; 
+                                $session_specs_key_admin = 'existing_specifications_admin_' . $editing_product_id;
+                                // Check admin key first, then regular key
+                                $specs_data = isset($_SESSION[$session_specs_key_admin]) ? $_SESSION[$session_specs_key_admin] : (isset($_SESSION[$session_specs_key]) ? $_SESSION[$session_specs_key] : null);
+                                echo $specs_data ? json_encode($specs_data) : 'null'; 
                             ?>;
                             console.log('Using specifications from session:', existingSpecs);
                         }
