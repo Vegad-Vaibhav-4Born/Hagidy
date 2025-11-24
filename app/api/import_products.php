@@ -888,6 +888,14 @@ foreach ($groups as $gKey => $g) {
         continue;
     }
 
+    $discount = 0;
+    if ($g['mrp'] !== '' && $g['selling_price'] !== '') {
+        $mrp = (float)$g['mrp'];
+        $selling = (float)$g['selling_price'];
+        if ($mrp > $selling && $mrp > 0) {
+            $discount = round((($mrp - $selling) / $mrp) * 100);
+        }
+    }
     // Prepare cols for insert
     $cols = [
         'vendor_id' => $vendorId,
@@ -896,7 +904,7 @@ foreach ($groups as $gKey => $g) {
         'sub_category_id' => $subCategoryId,
         'mrp' => $g['mrp'],
         'selling_price' => $g['selling_price'],
-        'discount' => '0',
+        'discount' => $discount,
         'description' => $g['description'],
         'coin' => $g['coin'],
         'platform_fee' => $g['platform_fee'],

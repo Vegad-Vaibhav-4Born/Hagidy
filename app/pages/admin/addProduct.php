@@ -125,8 +125,8 @@ if (!empty($editing_product_id)) {
     // If existing_product wasn't loaded earlier, load it now
     if (empty($existing_product)) {
         $rs_prefill = mysqli_query($con, "SELECT * FROM products WHERE id='" . mysqli_real_escape_string($con, $editing_product_id) . "' LIMIT 1");
-        if ($rs_prefill && mysqli_num_rows($rs_prefill) > 0) {
-            $existing_product = mysqli_fetch_assoc($rs_prefill);
+    if ($rs_prefill && mysqli_num_rows($rs_prefill) > 0) {
+        $existing_product = mysqli_fetch_assoc($rs_prefill);
             // Ensure vendor_id is set from existing product
             if (empty($vendor_id) && isset($existing_product['vendor_id'])) {
                 $vendor_id = $existing_product['vendor_id'];
@@ -571,7 +571,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
     }
     // Ensure vendor_id is set in data array
     if (!empty($vendor_id)) {
-        $data['vendor_id'] = $vendor_id;
+    $data['vendor_id'] = $vendor_id;
     } else {
         error_log("WARNING: vendor_id is empty when trying to update product " . $editing_product_id);
     }
