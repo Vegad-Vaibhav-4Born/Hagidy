@@ -51,18 +51,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_product'])) {
 $productVariants = [];
 $attributeNames = [];
 $variantNames = [];
+$attributeValuesData = []; // Store attribute values JSON for each attribute
 
 // Helper function to get variant name (handles both regular and text variants)
-function getVariantDisplayName($variantItem, $variantNames) {
+function getVariantDisplayName($variantItem, $variantNames, $attributeId = null, $attributeValuesJson = null) {
     // Check if this is a text variant
     if (isset($variantItem['is_text_variant']) && $variantItem['is_text_variant'] === true) {
         // Text variant - use the name property directly
         return isset($variantItem['name']) ? $variantItem['name'] : 'Text Variant';
     }
-    // Regular variant - lookup from variantNames array
-    return isset($variantItem['id']) && isset($variantNames[$variantItem['id']]) 
-        ? $variantNames[$variantItem['id']] 
-        : 'Variant';
+    
+    // Regular variant - try multiple lookup methods
+    if (isset($variantItem['id'])) {
+        $variantId = (string)$variantItem['id']; // Ensure it's a string for comparison
+        
+        // PRIORITY 1: Attribute-specific lookup (most accurate - ensures we get the correct value for this attribute)
+        // This is critical because variant IDs might exist in multiple attributes with different meanings
+        if ($attributeId !== null && $attributeValuesJson !== null && $attributeValuesJson !== '[]' && trim($attributeValuesJson) !== '') {
+            $attributeValues = json_decode($attributeValuesJson, true);
+            if (is_array($attributeValues) && !empty($attributeValues)) {
+                foreach ($attributeValues as $value) {
+                    // Compare as strings to ensure exact match
+                    $valueId = isset($value['value_id']) ? (string)$value['value_id'] : '';
+                    if ($valueId === $variantId) {
+                        $valueName = isset($value['value_name']) ? trim($value['value_name']) : '';
+                        if ($valueName !== '') {
+                            return $valueName;
+                        }
+                    }
+                }
+            }
+        }
+        
+        // PRIORITY 2: Global lookup from variantNames array (fallback only)
+        // Only use this if attribute-specific lookup didn't find a match
+        if (isset($variantNames[$variantId])) {
+            return $variantNames[$variantId];
+        }
+        
+        // PRIORITY 3: Case-insensitive search in global variantNames (fallback)
+        foreach ($variantNames as $key => $name) {
+            if (strcasecmp((string)$key, $variantId) === 0) {
+                return $name;
+            }
+        }
+        
+        // Fallback: return the variant ID itself if name not found
+        return $variantId;
+    }
+    
+    return 'Variant';
 }
 
 if (!empty($product['specifications'])) {
@@ -78,15 +116,31 @@ if (!empty($product['specifications'])) {
             $attrResult = mysqli_query($con, $attrQuery);
             if ($attrResult) {
                 while ($attr = mysqli_fetch_assoc($attrResult)) {
-                    $attributeNames[$attr['id']] = $attr['name'];
+                    $attrId = (int)$attr['id'];
+                    $attributeNames[$attrId] = $attr['name'];
                     
-                    // Parse attribute values JSON
-                    if (!empty($attr['attribute_values'])) {
-                        $attributeValues = json_decode($attr['attribute_values'], true);
-                        if (is_array($attributeValues)) {
+                    // Store the raw attribute_values JSON for this attribute
+                    // Ensure we have valid JSON, default to empty array if invalid
+                    $attrValuesJson = $attr['attribute_values'] ?? '[]';
+                    if (empty($attrValuesJson) || trim($attrValuesJson) === '') {
+                        $attrValuesJson = '[]';
+                    }
+                    $attributeValuesData[$attrId] = $attrValuesJson;
+
+                    // Parse attribute values JSON for global lookup (as fallback)
+                    if (!empty($attrValuesJson) && $attrValuesJson !== '[]') {
+                        $attributeValues = json_decode($attrValuesJson, true);
+                        if (is_array($attributeValues) && !empty($attributeValues)) {
                             foreach ($attributeValues as $value) {
                                 if (isset($value['value_id']) && isset($value['value_name'])) {
-                                    $variantNames[$value['value_id']] = $value['value_name'];
+                                    $valueId = (string)$value['value_id'];
+                                    $valueName = trim($value['value_name']);
+                                    if ($valueName !== '') {
+                                        // Only store if not already set (first occurrence wins for global lookup)
+                                        if (!isset($variantNames[$valueId])) {
+                                            $variantNames[$valueId] = $valueName;
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -359,10 +413,12 @@ if (!empty($product['specifications'])) {
                                                 </div>
                                                 <?php 
                                                 $count = isset($variant['variants']) && is_array($variant['variants']) ? count($variant['variants']) : 0;
+                                                $attrId = (int)$variant['attribute_id'];
+                                                $attrValuesJson = $attributeValuesData[$attrId] ?? '[]';
                                                 if ($count > 1): ?>
                                                     <div class="d-flex align-items-center gap-2 flex-wrap">
                                                         <?php foreach ($variant['variants'] as $colorVariant): 
-                                                            $colorName = getVariantDisplayName($colorVariant, $variantNames);
+                                                            $colorName = getVariantDisplayName($colorVariant, $variantNames, $attrId, $attrValuesJson);
                                                             ?>
                                                             <div class="color-one" data-variant-id="<?php echo $colorVariant['id']; ?>" 
                                                                  style="background-color: <?php echo strtolower($colorName); ?>;" 
@@ -373,7 +429,7 @@ if (!empty($product['specifications'])) {
                                                     <div class="d-flex align-items-center gap-2 flex-wrap">
                                                         <?php 
                                                         $only = $count === 1 ? $variant['variants'][0] : null;
-                                                        $label = $only ? getVariantDisplayName($only, $variantNames) : '';
+                                                        $label = $only ? getVariantDisplayName($only, $variantNames, $attrId, $attrValuesJson) : '';
                                                         ?>
                                                         <span class="text-muted"><?php echo htmlspecialchars($label); ?></span>
                                                     </div>
@@ -388,10 +444,12 @@ if (!empty($product['specifications'])) {
                                                 </div>
                                                 <?php 
                                                 $count = isset($variant['variants']) && is_array($variant['variants']) ? count($variant['variants']) : 0;
+                                                $attrId = (int)$variant['attribute_id'];
+                                                $attrValuesJson = $attributeValuesData[$attrId] ?? '[]';
                                                 if ($count > 1): ?>
                                                     <div class="d-flex align-items-center gap-2 flex-wrap">
                                                         <?php foreach ($variant['variants'] as $sizeVariant): 
-                                                            $sizeName = getVariantDisplayName($sizeVariant, $variantNames);
+                                                            $sizeName = getVariantDisplayName($sizeVariant, $variantNames, $attrId, $attrValuesJson);
                                                             ?>
                                                             <button class="btn-small" data-variant-id="<?php echo $sizeVariant['id']; ?>">
                                                                 <?php echo htmlspecialchars($sizeName); ?>
@@ -402,7 +460,7 @@ if (!empty($product['specifications'])) {
                                                     <div class="d-flex align-items-center gap-2 flex-wrap">
                                                         <?php 
                                                         $only = $count === 1 ? $variant['variants'][0] : null;
-                                                        $label = $only ? getVariantDisplayName($only, $variantNames) : '';
+                                                        $label = $only ? getVariantDisplayName($only, $variantNames, $attrId, $attrValuesJson) : '';
                                                         ?>
                                                         <span class="text-muted"><?php echo htmlspecialchars($label); ?></span>
                                                     </div>
@@ -417,10 +475,12 @@ if (!empty($product['specifications'])) {
                                                 </div>
                                                 <?php 
                                                 $count = isset($variant['variants']) && is_array($variant['variants']) ? count($variant['variants']) : 0;
+                                                $attrId = (int)$variant['attribute_id'];
+                                                $attrValuesJson = $attributeValuesData[$attrId] ?? '[]';
                                                 if ($count > 1): ?>
                                                     <div class="d-flex align-items-center gap-2 flex-wrap">
                                                         <?php foreach ($variant['variants'] as $otherVariant): 
-                                                            $variantName = getVariantDisplayName($otherVariant, $variantNames);
+                                                            $variantName = getVariantDisplayName($otherVariant, $variantNames, $attrId, $attrValuesJson);
                                                             ?>
                                                             <button class="btn-small" data-variant-id="<?php echo $otherVariant['id']; ?>">
                                                                 <?php echo htmlspecialchars($variantName); ?>
@@ -431,7 +491,7 @@ if (!empty($product['specifications'])) {
                                                     <div class="d-flex align-items-center gap-2 flex-wrap">
                                                         <?php 
                                                         $only = $count === 1 ? $variant['variants'][0] : null;
-                                                        $label = $only ? getVariantDisplayName($only, $variantNames) : '';
+                                                        $label = $only ? getVariantDisplayName($only, $variantNames, $attrId, $attrValuesJson) : '';
                                                         ?>
                                                         <span class="text-muted"><?php echo htmlspecialchars($label); ?></span>
                                                     </div>
@@ -503,9 +563,11 @@ if (!empty($product['specifications'])) {
                                                     <span>
                                                         <?php 
                                                         $variantNamesList = [];
+                                                        $attrId = (int)$variant['attribute_id'];
+                                                        $attrValuesJson = $attributeValuesData[$attrId] ?? '[]';
                                                         if (isset($variant['variants']) && is_array($variant['variants'])) {
                                                             foreach ($variant['variants'] as $variantItem) {
-                                                                $variantNamesList[] = getVariantDisplayName($variantItem, $variantNames);
+                                                                $variantNamesList[] = getVariantDisplayName($variantItem, $variantNames, $attrId, $attrValuesJson);
                                                             }
                                                         }
                                                         echo htmlspecialchars(implode(', ', $variantNamesList));
@@ -935,61 +997,6 @@ if (!empty($product['specifications'])) {
         updateButtonStates();
     </script>
     <script>
-        // Toggle functions for read more/less functionality - must be global for onclick handlers
-        function toggleDescription() {
-            var preview = document.querySelector('.description-preview');
-            var full = document.querySelector('.description-full');
-            var btn = event.target;
-            
-            if (preview && full) {
-                if (preview.style.display !== 'none') {
-                    preview.style.display = 'none';
-                    full.style.display = 'block';
-                    btn.textContent = 'Read Less';
-                } else {
-                    preview.style.display = 'block';
-                    full.style.display = 'none';
-                    btn.textContent = 'Read More';
-                }
-            }
-        }
-        
-        function toggleManufactureDetails() {
-            var preview = document.querySelector('.manufacture-preview');
-            var full = document.querySelector('.manufacture-full');
-            var btn = event.target;
-            
-            if (preview && full) {
-                if (preview.style.display !== 'none') {
-                    preview.style.display = 'none';
-                    full.style.display = 'block';
-                    btn.textContent = 'Read Less';
-                } else {
-                    preview.style.display = 'block';
-                    full.style.display = 'none';
-                    btn.textContent = 'Read More';
-                }
-            }
-        }
-        
-        function togglePackagingDetails() {
-            var preview = document.querySelector('.packaging-preview');
-            var full = document.querySelector('.packaging-full');
-            var btn = event.target;
-            
-            if (preview && full) {
-                if (preview.style.display !== 'none') {
-                    preview.style.display = 'none';
-                    full.style.display = 'block';
-                    btn.textContent = 'Read Less';
-                } else {
-                    preview.style.display = 'block';
-                    full.style.display = 'none';
-                    btn.textContent = 'Read More';
-                }
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
         var cancelNoBtn = document.getElementById('cancelNoBtn');
             var cancelYesBtn = document.getElementById('cancelYesBtn');
@@ -1140,6 +1147,60 @@ revertToMainPrice();
                 }
             }
             
+            // Toggle functions for read more/less functionality
+            function toggleDescription() {
+                var preview = document.querySelector('.description-preview');
+                var full = document.querySelector('.description-full');
+                var btn = event.target;
+                
+                if (preview && full) {
+                    if (preview.style.display !== 'none') {
+                        preview.style.display = 'none';
+                        full.style.display = 'block';
+                        btn.textContent = 'Read Less';
+                    } else {
+                        preview.style.display = 'block';
+                        full.style.display = 'none';
+                        btn.textContent = 'Read More';
+                    }
+                }
+            }
+            
+            function toggleManufactureDetails() {
+                var preview = document.querySelector('.manufacture-preview');
+                var full = document.querySelector('.manufacture-full');
+                var btn = event.target;
+                
+                if (preview && full) {
+                    if (preview.style.display !== 'none') {
+                        preview.style.display = 'none';
+                        full.style.display = 'block';
+                        btn.textContent = 'Read Less';
+                    } else {
+                        preview.style.display = 'block';
+                        full.style.display = 'none';
+                        btn.textContent = 'Read More';
+                    }
+                }
+            }
+            
+            function togglePackagingDetails() {
+                var preview = document.querySelector('.packaging-preview');
+                var full = document.querySelector('.packaging-full');
+                var btn = event.target;
+                
+                if (preview && full) {
+                    if (preview.style.display !== 'none') {
+                        preview.style.display = 'none';
+                        full.style.display = 'block';
+                        btn.textContent = 'Read Less';
+                    } else {
+                        preview.style.display = 'block';
+                        full.style.display = 'none';
+                        btn.textContent = 'Read More';
+                    }
+                }
+            }
     });
     </script>
 </body>

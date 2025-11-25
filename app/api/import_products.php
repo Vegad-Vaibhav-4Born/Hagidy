@@ -130,6 +130,26 @@ function getAttributeNames($con, $attributeIds) {
     return $names;
 }
 
+// Helper: get value from rowData case-insensitively
+function getRowValueCaseInsensitive($rowData, $possibleKeys) {
+    if (!is_array($possibleKeys)) {
+        $possibleKeys = [$possibleKeys];
+    }
+    foreach ($possibleKeys as $key) {
+        // Try exact match first
+        if (isset($rowData[$key])) {
+            return $rowData[$key];
+        }
+        // Try case-insensitive match
+        foreach ($rowData as $rowKey => $value) {
+            if (strcasecmp($rowKey, $key) === 0) {
+                return $value;
+            }
+        }
+    }
+    return null;
+}
+
 // Helper: get value name from value ID
 function getValueNameFromId($con, $attributeId, $valueId) {
     // Check if it's a text variant (starts with "text_")
@@ -358,8 +378,8 @@ $fieldMapNorm = [
     'product description' => 'description',
     'coin' => 'coin',
     'platform fee' => 'platform_fee',
-    'brand' => 'brand',
     'brand name' => 'brand',
+    'brand' => 'brand',
     'gst' => 'gst',
     'gst %' => 'gst',
     'hsn id' => 'hsn_id',
@@ -423,7 +443,7 @@ for ($r = $headerRowIndex + 1; $r <= $highestRow; $r++) {
         continue;
     }
 
-    $groupId = $rowData['Group ID'] ?? '';
+    $groupId = getRowValueCaseInsensitive($rowData, ['Group ID', 'group id', 'Group id']) ?? '';
     $key = strtolower($productName) . '|' . strtolower($groupId);
 
     if (!isset($groups[$key])) {
@@ -448,14 +468,14 @@ for ($r = $headerRowIndex + 1; $r <= $highestRow; $r++) {
             'description' => ($rowData['Description'] ?? ($rowData['Product Description'] ?? '')),
             'coin' => $rowData['Coin'] ?? '0',
             'platform_fee' => $rowData['Platform Fee'] ?? '0',
-            'brand' => $rowData['Brand'] ?? null,
+            'brand' => $rowData['Brand Name'] ?? ($rowData['Brand'] ?? null),
             'gst' => ($rowData['GST'] ?? ($rowData['GST %'] ?? null)),
             'hsn_id' => $rowData['HSN ID'] ?? null,
             'manufacture_details' => ($rowData['Manufacture Details'] ?? ($rowData['Manufacturer Details'] ?? '')),
             'packaging_details' => ($rowData['Packaging Details'] ?? ($rowData['Packer Details'] ?? '')),
             'sku_id' => $rowData['SKU ID'] ?? '',
             'group_id' => $groupId,
-            'style_id' => $rowData['Style ID'] ?? null,
+            'style_id' => getRowValueCaseInsensitive($rowData, ['Product ID / Style ID', 'Style ID', 'style id', 'Style id', 'Product ID / Style id', 'product id / style id']) ?? null,
             'Inventory' => $rowData['Inventory'] ?? '0',
             'product_brand' => $rowData['Product Brand'] ?? null,
             'variants' => [],

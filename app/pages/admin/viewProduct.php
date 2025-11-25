@@ -48,6 +48,7 @@ $product = null;
 $productVariants = [];
 $attributeNames = [];
 $variantNames = [];
+$attributeValuesData = []; // Store attribute values JSON for each attribute
 
 if ($productId > 0) {
 
@@ -65,16 +66,53 @@ if ($productId > 0) {
 }
 
 // Helper function to get variant name (handles both regular and text variants)
-function getVariantDisplayName($variantItem, $variantNames) {
+function getVariantDisplayName($variantItem, $variantNames, $attributeId = null, $attributeValuesJson = null) {
     // Check if this is a text variant
     if (isset($variantItem['is_text_variant']) && $variantItem['is_text_variant'] === true) {
         // Text variant - use the name property directly
         return isset($variantItem['name']) ? $variantItem['name'] : 'Text Variant';
     }
-    // Regular variant - lookup from variantNames array
-    return isset($variantItem['id']) && isset($variantNames[$variantItem['id']]) 
-        ? $variantNames[$variantItem['id']] 
-        : 'Variant';
+    
+    // Regular variant - try multiple lookup methods
+    if (isset($variantItem['id'])) {
+        $variantId = (string)$variantItem['id']; // Ensure it's a string for comparison
+        
+        // PRIORITY 1: Attribute-specific lookup (most accurate - ensures we get the correct value for this attribute)
+        // This is critical because variant IDs might exist in multiple attributes with different meanings
+        if ($attributeId !== null && $attributeValuesJson !== null && $attributeValuesJson !== '[]' && trim($attributeValuesJson) !== '') {
+            $attributeValues = json_decode($attributeValuesJson, true);
+            if (is_array($attributeValues) && !empty($attributeValues)) {
+                foreach ($attributeValues as $value) {
+                    // Compare as strings to ensure exact match
+                    $valueId = isset($value['value_id']) ? (string)$value['value_id'] : '';
+                    if ($valueId === $variantId) {
+                        $valueName = isset($value['value_name']) ? trim($value['value_name']) : '';
+                        if ($valueName !== '') {
+                            return $valueName;
+                        }
+                    }
+                }
+            }
+        }
+        
+        // PRIORITY 2: Global lookup from variantNames array (fallback only)
+        // Only use this if attribute-specific lookup didn't find a match
+        if (isset($variantNames[$variantId])) {
+            return $variantNames[$variantId];
+        }
+        
+        // PRIORITY 3: Case-insensitive search in global variantNames (fallback)
+        foreach ($variantNames as $key => $name) {
+            if (strcasecmp((string)$key, $variantId) === 0) {
+                return $name;
+            }
+        }
+        
+        // Fallback: return the variant ID itself if name not found
+        return $variantId;
+    }
+    
+    return 'Variant';
 }
 
 // Parse product specifications from database
@@ -91,15 +129,31 @@ if (!empty($product['specifications'])) {
             $attrResult = mysqli_query($con, $attrQuery);
             if ($attrResult) {
                 while ($attr = mysqli_fetch_assoc($attrResult)) {
-                    $attributeNames[$attr['id']] = $attr['name'];
+                    $attrId = (int)$attr['id'];
+                    $attributeNames[$attrId] = $attr['name'];
+                    
+                    // Store the raw attribute_values JSON for this attribute
+                    // Ensure we have valid JSON, default to empty array if invalid
+                    $attrValuesJson = $attr['attribute_values'] ?? '[]';
+                    if (empty($attrValuesJson) || trim($attrValuesJson) === '') {
+                        $attrValuesJson = '[]';
+                    }
+                    $attributeValuesData[$attrId] = $attrValuesJson;
 
-                    // Parse attribute values JSON
-                    if (!empty($attr['attribute_values'])) {
-                        $attributeValues = json_decode($attr['attribute_values'], true);
-                        if (is_array($attributeValues)) {
+                    // Parse attribute values JSON for global lookup (as fallback)
+                    if (!empty($attrValuesJson) && $attrValuesJson !== '[]') {
+                        $attributeValues = json_decode($attrValuesJson, true);
+                        if (is_array($attributeValues) && !empty($attributeValues)) {
                             foreach ($attributeValues as $value) {
                                 if (isset($value['value_id']) && isset($value['value_name'])) {
-                                    $variantNames[$value['value_id']] = $value['value_name'];
+                                    $valueId = (string)$value['value_id'];
+                                    $valueName = trim($value['value_name']);
+                                    if ($valueName !== '') {
+                                        // Only store if not already set (first occurrence wins for global lookup)
+                                        if (!isset($variantNames[$valueId])) {
+                                            $variantNames[$valueId] = $valueName;
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -600,9 +654,12 @@ if (!empty($product['specifications'])) {
                                                                         class="text-danger">*</span></label>
                                                                 <div class="form-control form-control-lg"
                                                                     style="min-height: 45px; display: flex; align-items: center; flex-wrap: wrap; gap: 5px;">
-                                                                    <?php foreach ($variants as $variant): ?>
+                                                                    <?php 
+                                                                    $attrId = (int)$attributeId;
+                                                                    $attrValuesJson = $attributeValuesData[$attrId] ?? '[]';
+                                                                    foreach ($variants as $variant): ?>
                                                                         <?php
-                                                                        $variantName = getVariantDisplayName($variant, $variantNames);
+                                                                        $variantName = getVariantDisplayName($variant, $variantNames, $attrId, $attrValuesJson);
                                                                         ?>
                                                                         <span
                                                                             class="badge bg-primary me-1"><?php echo htmlspecialchars($variantName); ?></span>
@@ -612,9 +669,12 @@ if (!empty($product['specifications'])) {
                                                         </div>
 
                                                         <?php if (!empty($variants)): ?>
-                                                            <?php foreach ($variants as $variantIndex => $variant): ?>
+                                                            <?php 
+                                                            $attrId = (int)$attributeId;
+                                                            $attrValuesJson = $attributeValuesData[$attrId] ?? '[]';
+                                                            foreach ($variants as $variantIndex => $variant): ?>
                                                                 <?php
-                                                                $variantName = getVariantDisplayName($variant, $variantNames);
+                                                                $variantName = getVariantDisplayName($variant, $variantNames, $attrId, $attrValuesJson);
                                                                 $mrp = isset($variant['mrp']) ? $variant['mrp'] : '';
                                                                 $sellingPrice = isset($variant['selling_price']) ? $variant['selling_price'] : '';
                                                                 // Only display variant row if MRP or Selling Price exists
