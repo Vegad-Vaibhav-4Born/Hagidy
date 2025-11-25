@@ -617,6 +617,8 @@ if (!empty($product['specifications'])) {
                                                                 $variantName = getVariantDisplayName($variant, $variantNames);
                                                                 $mrp = isset($variant['mrp']) ? $variant['mrp'] : '';
                                                                 $sellingPrice = isset($variant['selling_price']) ? $variant['selling_price'] : '';
+                                                                // Only display variant row if MRP or Selling Price exists
+                                                                if (!empty($mrp) || !empty($sellingPrice)):
                                                                 ?>
                                                                 <div class="row g-2 mb-3">
                                                                     <div class="col-12 col-xl-4 col-lg-4 col-md-6 col-sm-12">
@@ -625,21 +627,26 @@ if (!empty($product['specifications'])) {
                                                                             value="<?php echo htmlspecialchars($variantName); ?>"
                                                                             disabled>
                                                                     </div>
+                                                                    <?php if (!empty($mrp)): ?>
                                                                     <div class="col-12 col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                                         <label class="form-label mb-1">MRP<span
                                                                                 class="text-danger">*</span></label>
                                                                         <input type="text" class="form-control"
-                                                                            value="<?php echo !empty($mrp) ? '₹' . number_format((float) $mrp, 2) : ''; ?>"
+                                                                            value="<?php echo '₹' . number_format((float) $mrp, 2); ?>"
                                                                             disabled>
                                                                     </div>
+                                                                    <?php endif; ?>
+                                                                    <?php if (!empty($sellingPrice)): ?>
                                                                     <div class="col-12 col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                                         <label class="form-label mb-1">Selling Price<span
                                                                                 class="text-danger">*</span></label>
                                                                         <input type="text" class="form-control"
-                                                                            value="<?php echo !empty($sellingPrice) ? '₹' . number_format((float) $sellingPrice, 2) : ''; ?>"
+                                                                            value="<?php echo '₹' . number_format((float) $sellingPrice, 2); ?>"
                                                                             disabled>
                                                                     </div>
+                                                                    <?php endif; ?>
                                                                 </div>
+                                                                <?php endif; ?>
                                                             <?php endforeach; ?>
                                                         <?php endif; ?>
 

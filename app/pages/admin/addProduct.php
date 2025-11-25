@@ -1954,6 +1954,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                     });
                 }
                 
+                // Function to show optional attribute loader spanning entire card
+                function showOptionalAttributeLoader() {
+                    // Remove existing optional loader if any
+                    const existingLoader = document.getElementById('optional-attribute-loader');
+                    if (existingLoader) {
+                        existingLoader.remove();
+                    }
+                    
+                    // Find the card container with class "card custom-card p-4"
+                    const cardContainer = document.querySelector('.card.custom-card.p-4');
+                    if (!cardContainer) {
+                        console.warn('Card container not found for optional attribute loader');
+                        return;
+                    }
+                    
+                    // Ensure card has relative positioning
+                    if (getComputedStyle(cardContainer).position === 'static') {
+                        cardContainer.style.position = 'relative';
+                    }
+                    
+                    // Create loader overlay covering the entire card
+                    const loader = document.createElement('div');
+                    loader.id = 'optional-attribute-loader';
+                    loader.style.cssText = `
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(255, 255, 255, 0.95);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 30;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                    `;
+                    loader.innerHTML = `
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="mt-3 fw-semibold text-primary">Loading optional attributes...</div>
+                        </div>
+                    `;
+                    
+                    // Append loader to card container
+                    cardContainer.appendChild(loader);
+                    
+                    // Get all optional sections for logging
+                    const allSections = Array.from(document.querySelectorAll('.spec-section'));
+                    const optionalSections = allSections.filter(section => !section.classList.contains('mandatory-section'));
+                    console.log('Optional attribute loader shown for', optionalSections.length, 'sections');
+                }
+                
+                // Function to hide optional attribute loader
+                function hideOptionalAttributeLoader() {
+                    const loader = document.getElementById('optional-attribute-loader');
+                    if (loader) {
+                        loader.remove();
+                        console.log('Optional attribute loader hidden');
+                    }
+                }
+                
+                // Function to update optional attribute loader (ensures it exists and covers entire card)
+                function updateOptionalAttributeLoader() {
+                    const loader = document.getElementById('optional-attribute-loader');
+                    
+                    // If loader doesn't exist yet, create it
+                    if (!loader) {
+                        showOptionalAttributeLoader();
+                        return;
+                    }
+                    
+                    // Loader already exists and covers entire card, no position update needed
+                    // The loader is already set to cover the entire card (top: 0, left: 0, width: 100%, height: 100%)
+                }
+                
                 // === LOCALSTORAGE MANAGEMENT ===
                 // Get the storage key based on edit mode or new product
                 function getLocalStorageKey() {
@@ -2606,6 +2684,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                         const mrpInput = row.querySelector(`input[data-variant-id="${variantId}"][data-field="mrp"]`);
                         const spInput = row.querySelector(`input[data-variant-id="${variantId}"][data-field="selling_price"]`);
                         const fb = row.querySelector('.invalid-feedback');
+                        
+                        // Restrict input to only numeric values and decimal point
+                        const restrictToNumeric = function(input) {
+                            input.addEventListener('input', function(e) {
+                                // Get current value
+                                let value = e.target.value;
+                                // Remove any character that is not a digit or decimal point
+                                value = value.replace(/[^0-9.]/g, '');
+                                // Prevent multiple decimal points
+                                const parts = value.split('.');
+                                if (parts.length > 2) {
+                                    value = parts[0] + '.' + parts.slice(1).join('');
+                                }
+                                // Update the input value
+                                if (e.target.value !== value) {
+                                    e.target.value = value;
+                                }
+                            });
+                            
+                            // Also handle paste events
+                            input.addEventListener('paste', function(e) {
+                                e.preventDefault();
+                                const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+                                // Filter to only numeric and decimal point
+                                let filtered = pastedText.replace(/[^0-9.]/g, '');
+                                // Prevent multiple decimal points
+                                const parts = filtered.split('.');
+                                if (parts.length > 2) {
+                                    filtered = parts[0] + '.' + parts.slice(1).join('');
+                                }
+                                // Insert at cursor position
+                                const start = input.selectionStart;
+                                const end = input.selectionEnd;
+                                const currentValue = input.value;
+                                input.value = currentValue.substring(0, start) + filtered + currentValue.substring(end);
+                                input.setSelectionRange(start + filtered.length, start + filtered.length);
+                            });
+                            
+                            // Prevent non-numeric keys
+                            input.addEventListener('keypress', function(e) {
+                                const char = String.fromCharCode(e.which || e.keyCode);
+                                // Allow: numbers (0-9), decimal point (.), backspace, delete, tab, escape, enter
+                                if (!/[0-9.]/.test(char) && !e.ctrlKey && !e.metaKey && 
+                                    e.keyCode !== 8 && e.keyCode !== 9 && e.keyCode !== 27 && e.keyCode !== 13 && 
+                                    e.keyCode !== 46 && e.keyCode !== 37 && e.keyCode !== 39) {
+                                    e.preventDefault();
+                                }
+                                // Prevent multiple decimal points
+                                if (char === '.' && input.value.indexOf('.') !== -1) {
+                                    e.preventDefault();
+                                }
+                            });
+                        };
+                        
+                        // Apply restrictions to both inputs
+                        if (mrpInput) {
+                            restrictToNumeric(mrpInput);
+                        }
+                        if (spInput) {
+                            restrictToNumeric(spInput);
+                        }
+                        
                         const validate = function () {
                             const mrpVal = parseFloat(String(mrpInput.value || '').replace(/[^0-9.]/g, ''));
                             const spVal = parseFloat(String(spInput.value || '').replace(/[^0-9.]/g, ''));
@@ -2943,22 +3083,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                                 });
                             }
                         } else {
-                            // Even if "No" is checked, check if we have stored price data from localStorage
-                            // This ensures prices are preserved even if radio state changes
+                            // When "No" is checked, DO NOT include any price data
+                            // Clear any price data that might have been set previously
                             variants.forEach(v => {
-                                if (existingPriceData[v.id]) {
-                                    if (existingPriceData[v.id].mrp) {
-                                        v.mrp = existingPriceData[v.id].mrp;
-                                    }
-                                    if (existingPriceData[v.id].selling_price) {
-                                        v.selling_price = existingPriceData[v.id].selling_price;
-                                    }
-                                    // Preserve the data
-                                    if (!window.existingPriceData) {
-                                        window.existingPriceData = {};
-                                    }
-                                    window.existingPriceData[v.id] = existingPriceData[v.id];
-                                }
+                                // Explicitly remove price data when "No" is selected
+                                delete v.mrp;
+                                delete v.selling_price;
                             });
                         }
                         specs.push({ attribute_id: attributeId, variants });
@@ -3057,6 +3187,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                                     // Wait a bit for all sections to be fully rendered
                                     await new Promise(resolve => setTimeout(resolve, 500));
                                     MANDATORY_SECTIONS_CREATED = true;
+                                    
+                                    // Check if optional attributes exist and show loader immediately to prevent gap
+                                    let hasOptionalAttrs = false;
+                                    if (existingSpecsForPopulate && Array.isArray(existingSpecsForPopulate) && existingSpecsForPopulate.length > 0) {
+                                        // Check if there are any optional attributes (not in mandatory list)
+                                        hasOptionalAttrs = existingSpecsForPopulate.some(spec => {
+                                            const attrId = parseInt(spec.attribute_id, 10);
+                                            return !MANDATORY_ATTRIBUTES.includes(attrId);
+                                        });
+                                    } else if (window.localStorageSpecs && Array.isArray(window.localStorageSpecs) && window.localStorageSpecs.length > 0) {
+                                        // Check if there are any optional attributes (not in mandatory list)
+                                        hasOptionalAttrs = window.localStorageSpecs.some(spec => {
+                                            const attrId = parseInt(spec.attribute_id, 10);
+                                            return !MANDATORY_ATTRIBUTES.includes(attrId);
+                                        });
+                                    } else if (OPTIONAL_ATTRIBUTES && OPTIONAL_ATTRIBUTES.length > 0) {
+                                        // If optional attributes are preloaded, show loader
+                                        hasOptionalAttrs = true;
+                                    }
+                                    
+                                    if (hasOptionalAttrs) {
+                                        // Show optional loader immediately to prevent gap
+                                        showOptionalAttributeLoader();
+                                    }
+                                    
                                     // Hide section 1 when mandatory sections are created
                                     hideSection1WhenMandatoryLoaded();
                                     // Also remove mandatory attributes from section 1 dropdown
@@ -3226,6 +3381,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                                 // Wait a bit for all sections to be fully rendered
                                 await new Promise(resolve => setTimeout(resolve, 500));
                                 MANDATORY_SECTIONS_CREATED = true;
+                                
+                                // Check if optional attributes exist and show loader immediately to prevent gap
+                                let hasOptionalAttrs = false;
+                                if (existingSpecsForPopulate && Array.isArray(existingSpecsForPopulate) && existingSpecsForPopulate.length > 0) {
+                                    // Check if there are any optional attributes (not in mandatory list)
+                                    hasOptionalAttrs = existingSpecsForPopulate.some(spec => {
+                                        const attrId = parseInt(spec.attribute_id, 10);
+                                        return !MANDATORY_ATTRIBUTES.includes(attrId);
+                                    });
+                                } else if (window.localStorageSpecs && Array.isArray(window.localStorageSpecs) && window.localStorageSpecs.length > 0) {
+                                    // Check if there are any optional attributes (not in mandatory list)
+                                    hasOptionalAttrs = window.localStorageSpecs.some(spec => {
+                                        const attrId = parseInt(spec.attribute_id, 10);
+                                        return !MANDATORY_ATTRIBUTES.includes(attrId);
+                                    });
+                                } else if (OPTIONAL_ATTRIBUTES && OPTIONAL_ATTRIBUTES.length > 0) {
+                                    // If optional attributes are preloaded, show loader
+                                    hasOptionalAttrs = true;
+                                }
+                                
+                                if (hasOptionalAttrs) {
+                                    // Show optional loader immediately to prevent gap
+                                    showOptionalAttributeLoader();
+                                }
+                                
                                 // Hide section 1 when mandatory sections are created
                                 hideSection1WhenMandatoryLoaded();
                                 // Also remove mandatory attributes from section 1 dropdown
@@ -4109,6 +4289,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                             
                             // Load all specifications sequentially - MANDATORY FIRST, then OPTIONAL
                             const loadAllSpecs = async () => {
+                                // If optional attributes exist, show loader immediately after mandatory sections finish
+                                const hasOptionalAttrs = optionalSpecs.length > 0;
+                                
                                 // First, load mandatory attributes (they should already be in mandatory sections)
                                 for (let i = 0; i < mandatorySpecs.length; i++) {
                                     const spec = mandatorySpecs[i];
@@ -4567,6 +4750,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                                 
                                 // Now load optional attributes AFTER mandatory ones are loaded
                                 console.log(`Loading ${optionalSpecs.length} optional attributes after mandatory sections`);
+                                
+                                // Show loader for optional attributes IMMEDIATELY (no delay) to prevent gap
+                                // Show it right after mandatory loop ends, before any other processing
+                                if (hasOptionalAttrs && optionalSpecs.length > 0) {
+                                    // Show loader immediately to prevent any gap - no await, no delay
+                                    showOptionalAttributeLoader();
+                                }
+                                
                                 for (let i = 0; i < optionalSpecs.length; i++) {
                                     const spec = optionalSpecs[i];
                                     if (!spec || !spec.attribute_id) continue;
@@ -4578,6 +4769,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                                     const existingSectionForAttr = findSectionByAttrId(attributeId);
                                     if (existingSectionForAttr) {
                                         // Section already exists, just populate it
+                                        // Update loader position when existing section is populated
+                                        if (i === 0) {
+                                            // First iteration - show/update loader
+                                            updateOptionalAttributeLoader();
+                                        }
+                                        
                                         const attrSel = getAttrSelect(existingSectionForAttr);
                                         const varSel = getVariantsSelect(existingSectionForAttr);
                                         if (attrSel && varSel && attributeId) {
@@ -4686,6 +4883,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                                             const newSection = await waitForNew();
                                             
                                             if (newSection) {
+                                                // Update loader position after new section is added
+                                                updateOptionalAttributeLoader();
+                                                
                                                 const attrSel = getAttrSelect(newSection);
                                                 const varSel = getVariantsSelect(newSection);
                                                 if (attrSel && attributeId) {
@@ -4776,8 +4976,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                                     
                                     if (i < optionalSpecs.length - 1) {
                                         await new Promise(resolve => setTimeout(resolve, 500));
+                                    } else {
+                                        // Last iteration - update loader position one more time
+                                        updateOptionalAttributeLoader();
                                     }
                                 }
+                                
+                                // Hide optional attribute loader after all are loaded
+                                hideOptionalAttributeLoader();
                                 
                                 setTimeout(async () => {
                                     renderPreview();
@@ -4850,6 +5056,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                                     
                         // Step 4: Load optional specs from localStorage (if any)
                         if (localStorageSpecs && Array.isArray(localStorageSpecs) && localStorageSpecs.length > 0) {
+                            // Show optional loader IMMEDIATELY after mandatory sections finish to prevent gap
+                            // We'll determine if optional attributes exist, but show loader right away to avoid delay
+                            showOptionalAttributeLoader();
+                            
                             // Filter out mandatory attributes
                                     let actualMandatoryAttrs = [];
                                     if (subcategoryId || categoryId) {
@@ -4875,8 +5085,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                                 return !actualMandatoryAttrs.includes(attrId);
                             });
                             
+                            // Hide loader if no optional attributes found
+                            if (optionalSpecs.length === 0) {
+                                hideOptionalAttributeLoader();
+                            }
+                            
                             if (optionalSpecs.length > 0) {
                                 // Load optional specs into UI (similar to edit mode logic)
+                                
                                 for (let i = 0; i < optionalSpecs.length; i++) {
                                     const spec = optionalSpecs[i];
                                     if (!spec || !spec.attribute_id) continue;
@@ -4886,6 +5102,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                                     
                                     if (i === 0) {
                                         // Use first section
+                                        // Update loader position when first optional attribute is loaded
+                                        updateOptionalAttributeLoader();
+                                        
                                         const attrSel = getAttrSelect(firstSection);
                                         const varSel = getVariantsSelect(firstSection);
                                         if (attrSel && attributeId) {
@@ -5008,8 +5227,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['final_submit']) && $_
                                     
                                     if (i < optionalSpecs.length - 1) {
                                         await new Promise(resolve => setTimeout(resolve, 300));
+                                    } else {
+                                        // Last iteration - update loader position one more time
+                                        updateOptionalAttributeLoader();
                                     }
                                 }
+                                
+                                // Hide optional attribute loader after all are loaded
+                                hideOptionalAttributeLoader();
                             }
                         }
                         

@@ -935,6 +935,61 @@ if (!empty($product['specifications'])) {
         updateButtonStates();
     </script>
     <script>
+        // Toggle functions for read more/less functionality - must be global for onclick handlers
+        function toggleDescription() {
+            var preview = document.querySelector('.description-preview');
+            var full = document.querySelector('.description-full');
+            var btn = event.target;
+            
+            if (preview && full) {
+                if (preview.style.display !== 'none') {
+                    preview.style.display = 'none';
+                    full.style.display = 'block';
+                    btn.textContent = 'Read Less';
+                } else {
+                    preview.style.display = 'block';
+                    full.style.display = 'none';
+                    btn.textContent = 'Read More';
+                }
+            }
+        }
+        
+        function toggleManufactureDetails() {
+            var preview = document.querySelector('.manufacture-preview');
+            var full = document.querySelector('.manufacture-full');
+            var btn = event.target;
+            
+            if (preview && full) {
+                if (preview.style.display !== 'none') {
+                    preview.style.display = 'none';
+                    full.style.display = 'block';
+                    btn.textContent = 'Read Less';
+                } else {
+                    preview.style.display = 'block';
+                    full.style.display = 'none';
+                    btn.textContent = 'Read More';
+                }
+            }
+        }
+        
+        function togglePackagingDetails() {
+            var preview = document.querySelector('.packaging-preview');
+            var full = document.querySelector('.packaging-full');
+            var btn = event.target;
+            
+            if (preview && full) {
+                if (preview.style.display !== 'none') {
+                    preview.style.display = 'none';
+                    full.style.display = 'block';
+                    btn.textContent = 'Read Less';
+                } else {
+                    preview.style.display = 'block';
+                    full.style.display = 'none';
+                    btn.textContent = 'Read More';
+                }
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
         var cancelNoBtn = document.getElementById('cancelNoBtn');
             var cancelYesBtn = document.getElementById('cancelYesBtn');
@@ -1085,60 +1140,6 @@ revertToMainPrice();
                 }
             }
             
-            // Toggle functions for read more/less functionality
-            function toggleDescription() {
-                var preview = document.querySelector('.description-preview');
-                var full = document.querySelector('.description-full');
-                var btn = event.target;
-                
-                if (preview && full) {
-                    if (preview.style.display !== 'none') {
-                        preview.style.display = 'none';
-                        full.style.display = 'block';
-                        btn.textContent = 'Read Less';
-                    } else {
-                        preview.style.display = 'block';
-                        full.style.display = 'none';
-                        btn.textContent = 'Read More';
-                    }
-                }
-            }
-            
-            function toggleManufactureDetails() {
-                var preview = document.querySelector('.manufacture-preview');
-                var full = document.querySelector('.manufacture-full');
-                var btn = event.target;
-                
-                if (preview && full) {
-                    if (preview.style.display !== 'none') {
-                        preview.style.display = 'none';
-                        full.style.display = 'block';
-                        btn.textContent = 'Read Less';
-                    } else {
-                        preview.style.display = 'block';
-                        full.style.display = 'none';
-                        btn.textContent = 'Read More';
-                    }
-                }
-            }
-            
-            function togglePackagingDetails() {
-                var preview = document.querySelector('.packaging-preview');
-                var full = document.querySelector('.packaging-full');
-                var btn = event.target;
-                
-                if (preview && full) {
-                    if (preview.style.display !== 'none') {
-                        preview.style.display = 'none';
-                        full.style.display = 'block';
-                        btn.textContent = 'Read Less';
-                    } else {
-                        preview.style.display = 'block';
-                        full.style.display = 'none';
-                        btn.textContent = 'Read More';
-                    }
-                }
-            }
     });
     </script>
 </body>
