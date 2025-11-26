@@ -1,10 +1,14 @@
 <?php
 include __DIR__ . '/../includes/init.php';  
 
+
 if (!isset($_SESSION['superadmin_id'])) {
-    header('Location: admin/login.php');
+    // Construct absolute path to admin login page
+    $baseUrl = rtrim(USER_BASEURL, '/');
+    header('Location: ' . $baseUrl . '/admin/login.php');
     exit;
 }
+ 
 
 // Handle AJAX request for dashboard data
 if (isset($_GET['ajax']) && $_GET['ajax'] === 'dashboard_data') {

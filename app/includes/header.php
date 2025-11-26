@@ -1,4 +1,15 @@
 <?php
+// Include database/bootstrap if not already included
+// if (!isset($db_connection)) {
+//     $initPath = __DIR__ . '/../Core/init.php';
+//     if (file_exists($initPath)) {
+//         require_once $initPath;
+//     } else {
+//         require_once __DIR__ . '/../../config/app.php';
+//         require_once __DIR__ . '/../../config/database.php';
+//     }
+// }
+
 $categories = mysqli_query($db_connection, "select * from category");
 $sub_category = mysqli_query($db_connection, "select * from sub_category");
 $user_id = isset($_SESSION['user_id']) ? (int) $_SESSION['user_id'] : 0;

@@ -4,8 +4,13 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 include '../includes/init.php';
 if (!isset($_SESSION['vendor_reg_id'])) {
-    header('Location: login.php');
+    // Construct absolute path to vendor login page
+    $baseUrl = rtrim(USER_BASEURL, '/');
+    header('Location: ' . $baseUrl . '/vendor/login.php');
+    exit;
 }
+
+
 $vendor_reg_id = $_SESSION['vendor_reg_id'];
 
 // Access guard: block dashboard when vendor status is pending/hold/rejected

@@ -1,4 +1,6 @@
 <?php
+// Unified vendor access guard - include once at top of secured pages
+
 require_once __DIR__ . '/../pages/includes/init.php';
 
 // Require logged-in vendor
@@ -16,6 +18,7 @@ try {
             $row_guard = mysqli_fetch_assoc($rs_guard);
             $v_status = strtolower(trim($row_guard['status'] ?? ''));
 
+            // Allow only profileSetting.php and logout.php when not approved
             $currentPage = basename($_SERVER['PHP_SELF'] ?? '');
             $allowed = ['profileSetting.php','logout.php'];
 

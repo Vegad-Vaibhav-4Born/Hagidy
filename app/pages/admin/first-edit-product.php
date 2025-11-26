@@ -343,9 +343,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 exit;
             } else {
                 // Success - redirect back to the same page (for non-AJAX requests)
-            $redirect_url = 'first-edit-product.php?id=' . urlencode($product_id);
-            header('Location: ' . $redirect_url);
-            exit;
+                $redirect_url = 'first-edit-product.php?id=' . urlencode($product_id);
+                header('Location: ' . $redirect_url);
+                exit;
             }
         } else {
             if ($is_ajax) {

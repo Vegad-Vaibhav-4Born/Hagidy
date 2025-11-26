@@ -177,7 +177,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
     if (empty($upload_errors)) {
         // Prepare folder path: uploads/vendors/{vendorname}/{productname}
-          $safe_vendor = $vendor_business_name ?: ('vendor-' . $vendor_reg_id);
+        // Use exact business name from database to match existing folder structure
+        // $safe_vendor = preg_replace('/[^a-zA-Z0-9_-]+/', '_', $vendor_business_name ?: ('vendor-' . $vendor_reg_id));
+        // $safe_product = preg_replace('/[^a-zA-Z0-9_-]+/', '_', strtolower($product_name));
+        $safe_vendor = $vendor_business_name ?: ('vendor-' . $vendor_reg_id);
 $safe_product = strtolower($product_name);
 
         // Store under public/uploads/vendors/{vendor}/{product}
@@ -630,7 +633,9 @@ $safe_product = strtolower($product_name);
                     </div>
                 </div>
             </div>
-            
+            <!-- <div class="col-12 col-xl-6 col-lg-6 col-md-12 col-sm-12">ergsdvsdv</div>
+                </div> -->
+            <!-- End:: row-2 -->
         </div>
     </div>
     <!-- End::app-content -->
